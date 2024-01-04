@@ -35,6 +35,11 @@ npm run android
 yarn android
 ```
 
+```bash
+# generating build
+cd android/ && ./gradlew bundleRelease
+```
+
 ### For iOS
 
 ```bash

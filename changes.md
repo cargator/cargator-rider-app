@@ -1,0 +1,13 @@
+- remove useless imports, comments, code, vars and files
+- remove warnings
+- get base url from env or constant file for socket and axios
+- avoid inline styles
+- remove dummy data which is not imported anywhere, also delete useless files
+- do formatings
+- remove unnessesory logs
+- avoid using var keyword instead user let or const
+- for socketInstance somewhere used socketInstance?.on and somewhere user socketInstance.on , handle null value of socketInstance
+- why using empty  <View></View> ? if its require then use it as self closing tag
+- if (res.status=200) { ?? it shouldn't be === operator ??
+- +91 ? contry code should dynamic
+- 
