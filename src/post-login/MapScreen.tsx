@@ -706,6 +706,23 @@ const MapScreen = (props: any) => {
     }
   };
 
+  // const startChatListener = () => {
+  //   console.log("chatttttt");
+  //   socketInstance.on('chat-message', (body: any) => {
+  //     console.log("messages driver ---->",body);
+  //     body = JSON.parse(body);
+  //     if (body.message == 'New message from driver') {                 //203 : random status
+  //       setMessages((previousMessages: any) =>
+  //         GiftedChat.append(previousMessages, body.newChatMessage),
+  //       );
+  //       setUnseenMessagesCount(prevCount => prevCount + 1);
+  //       if (isChatComponent) {
+  //         handleSeenAllMessges();
+  //       }
+  //     }
+  // });
+  // };
+
   const socketEvents = () => {
     try {
       socketInstance?.on('ride-status', (body: any) => {
@@ -852,8 +869,9 @@ const MapScreen = (props: any) => {
       });
 
       socketInstance.on('chat-message', (body: any) => {
+        console.log("messages driver ---->",body);
         body = JSON.parse(body);
-        if (body.status=203) {                      //203 : random status
+        if (body.message == 'New message from driver') {                 //203 : random status
           setMessages((previousMessages: any) =>
             GiftedChat.append(previousMessages, body.newChatMessage),
           );
@@ -862,7 +880,7 @@ const MapScreen = (props: any) => {
             handleSeenAllMessges();
           }
         }
-      });
+    });
 
       socketInstance.on('change-payment-mode', (body: any) => {
         console.log(`change-payment-mode event :>> `, body?.message);
@@ -1891,7 +1909,7 @@ const MapScreen = (props: any) => {
                             </TouchableOpacity>
                             <TouchableOpacity
                               onPress={() =>
-                                Linking.openURL(`tel:${userData?.mobileNumber}`)
+                                Linking.openURL(`tel:${driverDetails?.mobileNumber}`)
                               }>
                               <CallIcon />
                               {/* <Text style={styles.textButton}>Call</Text> */}

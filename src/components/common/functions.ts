@@ -36,7 +36,7 @@ export const requestGpsPermission = async (dispatch: any) => {
             dispatch(setRiderLocation(coords));
           },
           (error: any) => {
-            console.log('requestLocationPermission error :>> ', error);
+            console.log(`requestLocationPermission error :>> `, error);
             if (error.message == 'Location permission not granted.') {
               dispatch(setLocationPermission(false));
             }
@@ -59,11 +59,11 @@ export const requestGpsPermission = async (dispatch: any) => {
         //  - ERR02 : If the popup has failed to open
         //  - ERR03 : Internal error
 
-        console.log('promptForEnableLocationIfNeeded error :>> ', error);
+        console.log(`promptForEnableLocationIfNeeded error :>> `, error);
         dispatch(setGpsPermission(false));
       });
   } catch (error) {
-    console.log('requestGpsPermission error :>> ', error);
+    console.log(`requestGpsPermission error :>> `, error);
   }
 };
 
@@ -83,7 +83,7 @@ export const checkLocationPermission = async (dispatch: any) => {
             dispatch(setRiderLocation(coords));
           },
           (error: any) => {
-            console.log('requestLocationPermission error :>> ', error);
+            console.log(`requestLocationPermission error :>> `, error);
             if (error.message == 'Location permission not granted.') {
               dispatch(setLocationPermission(false));
             }
@@ -186,7 +186,7 @@ export const requestLocationPermission = async (dispatch: any, flag = true) => {
           dispatch(setRiderLocation(coords));
         },
         (error: any) => {
-          console.log('requestLocationPermission error :>> ', error);
+          console.log(`requestLocationPermission error :>> `, error);
           if (error.message == 'Location permission not granted.') {
             // Toast.show({
             //   type: 'error',
