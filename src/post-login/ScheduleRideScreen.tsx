@@ -87,7 +87,7 @@ const ScheduleRideScreen = (props: any) => {
           <View style={styles.pickUpView}>
             <PickBookingDetail />
             <View>
-              <Text style={styles.heading}>Pickup Location</Text>
+              <Text style={styles.heading}>Pickup location</Text>
               <Text style={styles.addressText}>
                 {props.scheduledRideDetails.pickUpAddress}
               </Text>
@@ -97,7 +97,7 @@ const ScheduleRideScreen = (props: any) => {
           <View style={styles.pickUpView}>
             <DropBookingDetail />
             <View>
-              <Text style={styles.heading}>Dropoff Location</Text>
+              <Text style={styles.heading}>Drop off location</Text>
               <Text style={styles.addressText}>
                 {props.scheduledRideDetails.dropAddress}
               </Text>
@@ -122,7 +122,7 @@ const ScheduleRideScreen = (props: any) => {
             <View style={styles.pickUpView}>
               <PaymentBookingDetail />
               <View>
-                <Text style={styles.subHeading}>Payment Mode</Text>
+                <Text style={styles.subHeading}>Payment mode</Text>
                 <Text style={styles.subHeadingData}>
                   {props.scheduledRideDetails.paymentMode}
                 </Text>
@@ -160,7 +160,7 @@ const ScheduleRideScreen = (props: any) => {
             <View style={styles.pickUpView}>
               <EstimatedBookingDetail />
               <View>
-                <Text style={styles.subHeading}>Estimated Fare</Text>
+                <Text style={styles.subHeading}>Estimated fare</Text>
                 <Text style={styles.subHeadingData}>
                   ₹ {props.scheduledRideDetails.fare}
                 </Text>
@@ -210,13 +210,15 @@ const styles = StyleSheet.create({
     marginLeft: hp(1.5),
   },
   heading: {
+    fontFamily:'Roboto Mono',
     fontWeight: '800',
     color: '#000000',
     margin: wp(5),
     fontSize: hp(2),
   },
-  text: {marginLeft: wp(5), color: '#000000', width: wp(90), fontSize: hp(1.9)},
+  text: {fontFamily:'Roboto Mono',marginLeft: wp(5), color: '#000000', width: wp(90), fontSize: hp(1.9)},
   deleteButton: {
+    fontFamily:'Roboto Mono',
     padding: wp(3),
     alignSelf: 'center',
     justifyContent: 'center',
@@ -259,6 +261,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   textScheduleRideDetail: {
+    fontFamily:'Roboto Mono',
     fontWeight: '800',
     color: '#000000',
     fontSize: hp(2),
@@ -267,17 +270,20 @@ const styles = StyleSheet.create({
     paddingLeft: wp(3),
   },
   deleteText: {
+    fontFamily:'Roboto Mono',
     fontSize: wp(4.5),
     fontWeight: '800',
     color: '#EB5757',
   },
   headingText: {
+    fontFamily:'Roboto Mono',
     color: '#000000',
     fontWeight: '900',
     fontSize: hp(3),
     marginLeft: hp(2),
   },
   addressText: {
+    fontFamily:'Roboto Mono',
     marginLeft: wp(5),
     color: '#000000',
     width: wp(90),
@@ -287,6 +293,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(70),
   },
   dropText: {
+    fontFamily:'Roboto Mono',
     marginLeft: wp(5),
     color: '#000000',
     width: wp(90),
@@ -296,6 +303,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(70),
   },
   dateTimeText: {
+    fontFamily:'Roboto Mono',
     fontWeight: '800',
     color: '#000000',
     fontSize: hp(2),
@@ -313,12 +321,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   subHeading: {
+    fontFamily:'Roboto Mono',
     fontWeight: '800',
     margin: wp(5),
     fontSize: hp(2),
     color: '#9CA3AF',
   },
   subHeadingData: {
+    fontFamily:'Roboto Mono',
     fontWeight: '800',
     color: '#000000',
     margin: wp(5),

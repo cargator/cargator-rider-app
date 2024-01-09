@@ -73,7 +73,7 @@ const Profile = (props: any) => {
                 </View>
 
                 <View style={styles.contentView}>
-                  <Text style={styles.contentViewHeading}>Mobile Number</Text>
+                  <Text style={styles.contentViewHeading}>Mobile number</Text>
                   <Text style={styles.contentViewText}>
                     {userData.mobileNumber}
                   </Text>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: hp(10),
   },
-  profileText: {color: '#ffffff', fontSize: wp(10)},
+  profileText: {fontFamily:'Roboto Mono',color: '#ffffff', fontSize: wp(10)},
   horixontalLine: {
     backgroundColor: '#E5E7EB',
     height: 1,
@@ -153,11 +153,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   contentViewHeading: {
+    fontFamily:'Roboto Mono',
     color: '#9CA3AF',
     fontSize: hp(1.8),
     fontWeight: '500',
   },
   contentViewText: {
+    fontFamily:'Roboto Mono',
     color: '#212121',
     fontSize: hp(2.2),
     fontWeight: '500',
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  date:{marginTop: hp(5), color: '#BAB6B6'}
+  date:{fontFamily:'Roboto Mono',marginTop: hp(5), color: '#BAB6B6'}
 });
 
 export default Profile;

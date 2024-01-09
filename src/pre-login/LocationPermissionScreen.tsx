@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     width: wp(85),
   },
   headingText: {
+    fontFamily:'Roboto Mono',
     fontWeight: '600',
     fontSize: wp(5),
     color: '#000',
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: hp(1),
   },
   subHeadingText: {
+    fontFamily:'Roboto Mono',
     fontSize: wp(4.8),
     color: '#464E5F',
     textAlign: 'center',
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: wp(3.5),
   },
   buttonText: {
+    fontFamily:'Roboto Mono',
     fontSize: wp(5.5),
     fontWeight: '600',
     color: '#fff',

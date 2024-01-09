@@ -108,7 +108,7 @@ const AllScheduledRidesScreen = (props: any) => {
             {_isEmpty(scheduledRides) ? (
               <View style={styles.noRidesContainer}>
                 <Text style={styles.noRidesContainerText}>
-                  No Scheduled Rides Found !
+                  No scheduled rides found !
                 </Text>
               </View>
             ) : (

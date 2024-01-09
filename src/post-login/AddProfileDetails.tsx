@@ -79,14 +79,14 @@ const AddProfilDetails = () => {
               <TextInput
                 ref={refTextInput}
                 keyboardType="default"
-                placeholder="Enter your First Name"
+                placeholder="Enter your first name"
                 style={styles.nameInput}
                 onChangeText={handleChange('firstName')}
                 onBlur={handleBlur('firstName')}
                 value={values.firstName}
               />
               {errors.firstName && touched.firstName && (
-                <Text style={{color: 'red'}}>
+                <Text style={{fontFamily: 'RobotoMono-Regular',color: 'red'}}>
                   {errors?.firstName.toString()}
                 </Text>
               )}
@@ -94,14 +94,14 @@ const AddProfilDetails = () => {
               <TextInput
                 ref={refTextInput}
                 keyboardType="default"
-                placeholder="Enter your Last Name"
+                placeholder="Enter your last name"
                 style={styles.nameInput}
                 onChangeText={handleChange('lastName')}
                 onBlur={handleBlur('lastName')}
                 value={values.lastName}
               />
               {errors.lastName && touched.lastName && (
-                <Text style={{color: 'red'}}>
+                <Text style={{fontFamily: 'RobotoMono-Regular',color: 'red'}}>
                   {errors?.lastName.toString()}
                 </Text>
               )}
@@ -127,6 +127,7 @@ const AddProfilDetails = () => {
 
 const styles = StyleSheet.create({
   nameInput: {
+    fontFamily: 'RobotoMono-Regular',
     color: '#747688',
     width: wp(75),
     borderRadius: wp(3),

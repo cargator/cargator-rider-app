@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
   },
   buttonText: {
+    fontFamily:'Roboto Mono',
     color: '#ffffff',
     fontSize: wp(4.5),
     fontWeight: '600',

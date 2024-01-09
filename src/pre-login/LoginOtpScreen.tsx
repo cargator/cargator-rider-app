@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   text: {
+    fontFamily:'Roboto Mono',
     color: '#000000',
     fontSize: wp(5),
     alignSelf: 'flex-start',
@@ -237,8 +238,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  otpInputStyle: {width: wp(50), height: hp(8.5)},
-  resendText: {color: '#747688', fontSize: hp(2.2)},
+  otpInputStyle: {fontFamily:'Roboto Mono',width: wp(50), height: hp(8.5)},
+  resendText: {fontFamily:'Roboto Mono',color: '#747688', fontSize: hp(2.2)},
   arrow: {position: 'absolute', right: wp(7)},
 });
 

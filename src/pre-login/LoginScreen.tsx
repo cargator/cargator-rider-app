@@ -117,7 +117,7 @@ const LoginScreen = ({navigation}: any) => {
                 }}>
                 <View>
                   <Text style={styles.text}>Enter your mobile number</Text>
-                  <Text style={[styles.text, {alignSelf: 'flex-start'}]}>
+                  <Text style={[styles.textContinue, {alignSelf: 'flex-start'}]}>
                     to continue
                   </Text>
                 </View>
@@ -171,6 +171,7 @@ const LoginScreen = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   mobileInput: {
+    fontFamily: 'RobotoMono-Regular',
     color: '#747688',
     width: wp(90),
     borderRadius: wp(3),
@@ -193,7 +194,13 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'RobotoMono-Regular',
     color: '#000000',
-    fontSize: wp(6),
+    fontSize: wp(5),
+    fontWeight: '600',
+  },
+  textContinue: {
+    fontFamily: 'RobotoMono-Regular',
+    color: '#747688',
+    fontSize: wp(5),
     fontWeight: '600',
   },
   textInputView: {
@@ -209,11 +216,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   code: {
+    fontFamily: 'RobotoMono-Regular',
     fontSize: wp(4.5),
     marginLeft: wp(0.5),
     color: '#747688',
   },
   errorText: {
+    fontFamily: 'RobotoMono-Regular',
     fontSize: hp(2),
     color: 'red',
     position: 'absolute',

@@ -1489,7 +1489,7 @@ const MapScreen = (props: any) => {
                   </View>
 
                   <Text style={styles.boldText}>
-                    We're Finding a Driver for You
+                    We're finding a driver for You
                   </Text>
                   <Text style={styles.holdOntext}>
                     Kindly hold on for a second
@@ -1501,10 +1501,11 @@ const MapScreen = (props: any) => {
                     style={styles.cancelButton}>
                     <Text
                       style={{
+                        fontFamily:'Roboto Mono',
                         fontWeight: '800',
                         color: '#EB5757',
                       }}>
-                      Cancel Ride
+                      Cancel ride
                     </Text>
                   </TouchableOpacity>
                   <View
@@ -1527,6 +1528,7 @@ const MapScreen = (props: any) => {
                           }}>
                           <Text
                             style={{
+                              fontFamily:'Roboto Mono',
                               marginBottom: 20,
                               fontSize: 16,
                               textAlign: 'center',
@@ -1595,7 +1597,7 @@ const MapScreen = (props: any) => {
                                 multiline={false}
                                 editable={false}
                                 scrollEnabled={true}
-                                style={{color: '#000000'}}>
+                                style={{fontFamily:'Roboto Mono',color: '#000000'}}>
                                 {rideDetails?.pickUpAddress}
                               </TextInput>
                             </ScrollView>
@@ -1621,7 +1623,7 @@ const MapScreen = (props: any) => {
                                 multiline={false}
                                 editable={false}
                                 scrollEnabled={true}
-                                style={{color: '#000000'}}>
+                                style={{fontFamily:'Roboto Mono',color: '#000000'}}>
                                 {rideDetails?.dropAddress}
                               </TextInput>
                             </ScrollView>
@@ -1984,6 +1986,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   cancelButton: {
+    fontFamily:'Roboto Mono',
     padding: wp(3),
     alignSelf: 'center',
     justifyContent: 'center',
@@ -1997,6 +2000,7 @@ const styles = StyleSheet.create({
     width: wp(90),
   },
   buttonText: {
+    fontFamily:'Roboto Mono',
     color: '#ffffff',
     textAlign: 'center',
   },
@@ -2062,8 +2066,8 @@ const styles = StyleSheet.create({
     bottom: hp(28),
     justifyContent: 'center',
   },
-  text: {color: 'grey', fontSize: hp(2)},
-  heading: {fontWeight: '800', color: '#000000', fontSize: hp(2.5)},
+  text: {fontFamily:'Roboto Mono',color: 'grey', fontSize: hp(2)},
+  heading: {fontFamily:'Roboto Mono',fontWeight: '800', color: '#000000', fontSize: hp(2.5)},
   profileModalView: {
     backgroundColor: 'white',
     borderRadius: wp(2),
@@ -2092,6 +2096,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   logoutText: {
+    fontFamily:'Roboto Mono',
     fontSize: wp(4.5),
     fontWeight: 'bold',
     color: '#000000',
@@ -2125,7 +2130,7 @@ const styles = StyleSheet.create({
     top: hp(7),
     borderRadius: wp(5),
   },
-  profileText: {color: '#ffffff', fontSize: wp(5)},
+  profileText: {fontFamily:'Roboto Mono',color: '#ffffff', fontSize: wp(5)},
   horixontalLine: {
     backgroundColor: '#E5E7EB',
     height: 1,
@@ -2174,13 +2179,14 @@ const styles = StyleSheet.create({
     minWidth: wp(65),
     backgroundColor: 'transparent',
   },
-  autoCompleteText: {color: '#000000', margin: wp(2)},
+  autoCompleteText: {fontFamily:'Roboto Mono',color: '#000000', margin: wp(2)},
   clearTextView: {
     position: 'absolute',
     right: wp(1),
     top: hp(1),
   },
   clearText: {
+    fontFamily:'Roboto Mono',
     color: '#000000',
     fontWeight: '700',
     fontSize: hp(2),
@@ -2228,6 +2234,7 @@ const styles = StyleSheet.create({
     paddingRight: wp(5),
   },
   rideInfoText: {
+    fontFamily:'Roboto Mono',
     color: '#000000',
     fontWeight: '500',
     alignSelf: 'center',
@@ -2252,6 +2259,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(80),
   },
   spinnerAddressText: {
+    fontFamily:'Roboto Mono',
     color: '#000000',
     marginLeft: wp(2),
     fontWeight: '500',
@@ -2273,6 +2281,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(80),
   },
   boldText: {
+    fontFamily:'Roboto Mono',
     marginTop: hp(10),
     fontSize: hp(2.5),
     fontWeight: '600',
@@ -2280,6 +2289,7 @@ const styles = StyleSheet.create({
     color: '#212121',
   },
   holdOntext: {
+    fontFamily:'Roboto Mono',
     marginTop: hp(1),
     fontSize: hp(2),
     fontWeight: '500',
@@ -2313,6 +2323,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   paymentText: {
+    fontFamily:'Roboto Mono',
     color: '#212121',
     fontWeight: '600',
   },
@@ -2377,6 +2388,7 @@ const styles = StyleSheet.create({
     fontSize: hp(2),
   },
   customText: {
+    fontFamily:'Roboto Mono',
     color: '#212121',
     fontWeight: '500',
   },
