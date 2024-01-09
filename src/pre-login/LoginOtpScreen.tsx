@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
   greyText: {
+    fontFamily:'Roboto Mono',
     color: '#747688',
     fontSize: wp(5),
     marginTop: hp(4),

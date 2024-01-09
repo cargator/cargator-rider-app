@@ -93,18 +93,17 @@ const AllScheduledRidesScreen = (props: any) => {
 
   return (
     <>
+     <TouchableOpacity
+        style={styles.header}
+        onPress={() => props.navigation.toggleDrawer()}>
+        <SidebarIcon />
+      </TouchableOpacity>
       {loading ? (
         <View style={styles.loader}>
           <LoaderComponent />
         </View>
       ) : (
         <>
-          <TouchableOpacity
-            style={styles.header}
-            onPress={() => props.navigation.toggleDrawer()}>
-            <SidebarIcon />
-          </TouchableOpacity>
-
           <View style={[styles.container, {backgroundColor: '#fff'}]}>
             {_isEmpty(scheduledRides) ? (
               <View style={styles.noRidesContainer}>

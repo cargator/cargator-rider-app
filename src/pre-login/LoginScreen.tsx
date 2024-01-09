@@ -116,7 +116,7 @@ const LoginScreen = ({navigation}: any) => {
                   marginVertical: hp(4.5),
                 }}>
                 <View>
-                  <Text style={styles.text}>Enter Your mobile number</Text>
+                  <Text style={styles.text}>Enter your mobile number</Text>
                   <Text style={[styles.text, {alignSelf: 'flex-start'}]}>
                     to continue
                   </Text>
@@ -191,8 +191,9 @@ const styles = StyleSheet.create({
     gap: wp(2),
   },
   text: {
+    fontFamily: 'RobotoMono-Regular',
     color: '#000000',
-    fontSize: wp(5),
+    fontSize: wp(6),
     fontWeight: '600',
   },
   textInputView: {

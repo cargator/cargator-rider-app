@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-export const themeColor = '#404080';
+export const themeColor = '#118F5E';
 
 export const styles = StyleSheet.create({
   parentView: {

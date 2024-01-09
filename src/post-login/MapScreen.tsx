@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Text,
   View,
-  Platform, TouchableOpacity,
+  Platform,
+  TouchableOpacity,
   StyleSheet,
   ScrollView,
   TextInput,
@@ -10,7 +11,7 @@ import {
   Keyboard,
   ActivityIndicator,
   TouchableWithoutFeedback,
-  BackHandler
+  BackHandler,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -18,9 +19,9 @@ import {
 } from 'react-native-responsive-screen';
 import Geolocation from 'react-native-geolocation-service';
 import AutocompleteInput from 'react-native-autocomplete-input';
-import MapView, { Marker, Polyline } from 'react-native-maps';
-import { getSocketInstance, socketDisconnect } from '../utils/socket';
-import { useDispatch, useSelector } from 'react-redux';
+import MapView, {Marker, Polyline} from 'react-native-maps';
+import {getSocketInstance, socketDisconnect} from '../utils/socket';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   removeRideDetails,
   setGpsPermission,
@@ -49,8 +50,8 @@ import {
   setUtils,
   setOrderId,
 } from '../redux/redux';
-import { GiftedChat } from 'react-native-gifted-chat';
-import { Badge } from 'react-native-elements';
+import {GiftedChat} from 'react-native-gifted-chat';
+import {Badge, Button} from 'react-native-elements';
 import ChatComponent from './ChatComponent';
 import DropMarker from '../components/svg/DropMarker';
 import PickupMarker from '../components/svg/PickupMarker';
@@ -61,21 +62,21 @@ import {
   isNumber as _isNumber,
   isNull as _isNull,
 } from 'lodash';
-import { styles as ExternalStyles, themeColor } from '../styles/styles';
+import {styles as ExternalStyles, themeColor} from '../styles/styles';
 import SidebarIcon from '../components/svg/SidebarIcon';
 import moment from 'moment';
 import {
   cancelPaymentOrder,
   createPaymentOrder,
 } from '../services/paymentservices';
-import { DriverInfo, getRideFare } from '../services/rideservices';
+import {DriverInfo, getRideFare} from '../services/rideservices';
 import {
   DirectionsApi,
   suggestedPlaces,
   getAddressFromCoords,
   getCoordsFromAddress,
 } from '../services/mapservices';
-import { getUtils } from '../services/userservices';
+import {getUtils} from '../services/userservices';
 // import * as _ from 'lodash';
 // import { dummy_Path, dummy_distance, dummy_duration, dummy_nearbyDrivers } from './dummyData';
 
@@ -101,8 +102,8 @@ const MapScreen = (props: any) => {
     longitude: 72.96562536656589,
   });
   const [mylocation, setMyLocation] = useState<any>({
-    latitude: 19.165068813649604,
-    longitude: 72.96567638115837,
+    latitude: 0,
+    longitude: 0,
   });
   const [destLocation, setDestLocation] = useState<any>({
     latitude: '',
@@ -126,6 +127,7 @@ const MapScreen = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [fare, setFare] = useState(0);
   const [customSpinner, setCustomSpinner] = useState(false);
+  const [popup, setPopup] = useState(false);
   const [nearbyDrivers, setNearbyDrivers] = useState<any>([]);
   const timeoutRef = useRef<any>();
   const dispatch = useDispatch();
@@ -394,6 +396,7 @@ const MapScreen = (props: any) => {
     });
     setCustomSpinner(false);
     setIsProfileModal(false);
+    setPopup(false)
     setUnseenMessagesCount(0);
     setNavigationStep(0);
     setDestLocation({
@@ -432,7 +435,7 @@ const MapScreen = (props: any) => {
 
   const getAddressFromAutoComplete = async (text: string) => {
     try {
-      if (text?.length >= 3) {
+      if (text?.length >= 4) {
         const response: any = await suggestedPlaces(text);
         return response?.data?.predictions || [];
         // return dummy_destAutoComplete;
@@ -466,7 +469,7 @@ const MapScreen = (props: any) => {
   const getAddress = async (location: {latitude: any; longitude: any}) => {
     try {
       if (
-        !_isNumber(location.latitude) ||
+        !_isNumber(location.latitude) || location.latitude === 0 || location.longitude === 0 ||
         !_isNumber(location.longitude) ||
         myAddress
       ) {
@@ -646,9 +649,14 @@ const MapScreen = (props: any) => {
           setCustomSpinner(true);
           timeoutRef.current = setTimeout(() => {
             if (rideDetails?.status === 'pending-accept') {
-              handleCancelRide();
+              setPopup(true);
+              // Toast.show({
+              //   type: 'error',
+              //   text1: 'Driver not found , Please try again',
+              // });
+              // handleCancelRide();
             }
-          }, 60000);
+          }, 20000);
           break;
 
         case 'pending-arrival':
@@ -763,7 +771,7 @@ const MapScreen = (props: any) => {
           setLoading(false);
         }
         if (body?.status === 200) {
-          console.log('body?.message', body?.message)
+          console.log('body?.message', body?.message);
           Toast.show({
             type: 'success',
             text1: 'Payment Successfull and ride completed !',
@@ -830,8 +838,8 @@ const MapScreen = (props: any) => {
         // console.log('ride-request-response event :>> ', body);
         body = JSON.parse(body);
 
-        if (body.status==409) {
-          console.log('body.message', body.message)
+        if (body.status == 409) {
+          console.log('body.message', body.message);
           emptyStates();
           setCustomSpinner(false);
           setLoading(false);
@@ -869,9 +877,10 @@ const MapScreen = (props: any) => {
       });
 
       socketInstance.on('chat-message', (body: any) => {
-        console.log("messages driver ---->",body);
+        console.log('messages driver ---->', body);
         body = JSON.parse(body);
-        if (body.message == 'New message from driver') {                 //203 : random status
+        if (body.message == 'New message from driver') {
+          //203 : random status
           setMessages((previousMessages: any) =>
             GiftedChat.append(previousMessages, body.newChatMessage),
           );
@@ -880,7 +889,7 @@ const MapScreen = (props: any) => {
             handleSeenAllMessges();
           }
         }
-    });
+      });
 
       socketInstance.on('change-payment-mode', (body: any) => {
         console.log(`change-payment-mode event :>> `, body?.message);
@@ -1073,7 +1082,7 @@ const MapScreen = (props: any) => {
             <View style={styles.loader}>
               <LoaderComponent />
             </View>
-        )}
+          )}
         <View
           style={[
             loading &&
@@ -1502,22 +1511,51 @@ const MapScreen = (props: any) => {
                     style={{
                       marginTop: hp(10),
                     }}>
-                    <Spinner
-                      isVisible={true}
-                      type="Pulse"
-                      color="#9999cc"
-                      style={styles.ParentSpinner}
-                      // size={wp(80)}
-                      size={wp(40)}
-                    />
-                    <Spinner
-                      isVisible={true}
-                      type="Pulse"
-                      color={themeColor}
-                      // size={wp(60)}
-                      size={wp(20)}
-                      style={styles.ChildSpinner}
-                    />
+                    {popup ? (
+                      <View>
+                        <View
+                          style={{
+                            padding: 20,
+                            backgroundColor: '#fff',
+                            borderRadius: 10,
+                            elevation: 2, // for Android shadow
+                            shadowColor: '#000',
+                            shadowOffset: {width: 0, height: 2},
+                            shadowOpacity: 0.2,
+                            shadowRadius: 2,
+                            alignItems: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              marginBottom: 20,
+                              fontSize: 16,
+                              textAlign: 'center',
+                            }}>
+                            Driver not found. Please try again.
+                          </Text>
+                          <Button title="OK" onPress={handleCancelRide} />
+                        </View>
+                      </View>
+                    ) : (
+                      <>
+                        <Spinner
+                          isVisible={true}
+                          type="Pulse"
+                          color="#9999cc"
+                          style={styles.ParentSpinner}
+                          // size={wp(80)}
+                          size={wp(40)}
+                        />
+                        <Spinner
+                          isVisible={true}
+                          type="Pulse"
+                          color={themeColor}
+                          // size={wp(60)}
+                          size={wp(20)}
+                          style={styles.ChildSpinner}
+                        />
+                      </>
+                    )}
                   </View>
                 </>
               ) : (
@@ -1803,8 +1841,8 @@ const MapScreen = (props: any) => {
                                     <SmallCarIcon />
                                   </View>
                                   <Text
-                                    style={[styles.text, {fontSize: hp(1.8)}]}>
-                                    Car : {driverDetails.vehicleName}
+                                    style={[styles.text, {fontSize: hp(1.8), width:wp(40)}]}>
+                                    {' '}Car  :   {driverDetails.vehicleName}
                                   </Text>
                                 </View>
                                 <View style={styles.ratingsView}>
@@ -1813,7 +1851,7 @@ const MapScreen = (props: any) => {
                                   </View>
                                   <Text
                                     style={[styles.text, {fontSize: hp(1.8)}]}>
-                                    4.9(490 reviews)
+                                    4.9  ( 490  reviews)
                                   </Text>
                                 </View>
                               </View>
@@ -1909,7 +1947,9 @@ const MapScreen = (props: any) => {
                             </TouchableOpacity>
                             <TouchableOpacity
                               onPress={() =>
-                                Linking.openURL(`tel:${driverDetails?.mobileNumber}`)
+                                Linking.openURL(
+                                  `tel:${driverDetails?.mobileNumber}`,
+                                )
                               }>
                               <CallIcon />
                               {/* <Text style={styles.textButton}>Call</Text> */}

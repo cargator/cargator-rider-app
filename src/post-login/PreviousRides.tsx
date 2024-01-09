@@ -56,17 +56,17 @@ const PreviousRides = (props: any) => {
 
   return (
     <>
+     <TouchableOpacity
+        style={styles.header}
+        onPress={() => props.navigation.toggleDrawer()}>
+        <SidebarIcon />
+      </TouchableOpacity>
       {loading ? (
         <View style={styles.loading}>
           <LoaderComponent />
         </View>
       ) : (
         <SafeAreaView style={styles.safeAreaView}>
-          <TouchableOpacity
-            style={styles.header}
-            onPress={() => props.navigation.toggleDrawer()}>
-            <SidebarIcon />
-          </TouchableOpacity>
           <View style={{flexDirection: 'row',marginLeft:wp(5)}}>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
               <ArrowLeft />
