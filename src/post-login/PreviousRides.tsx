@@ -56,10 +56,22 @@ const PreviousRides = (props: any) => {
 
   return (
     <>
-     <TouchableOpacity
+      <TouchableOpacity
         style={styles.header}
         onPress={() => props.navigation.toggleDrawer()}>
         <SidebarIcon />
+        <View
+          style={{
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
+            flex: 1,
+            marginLeft: wp(2),
+            marginTop: hp(0.4),
+          }}>
+          <Text style={{fontSize: hp(3), fontFamily: 'RobotoMono-Regular'}}>
+            Rides
+          </Text>
+        </View>
       </TouchableOpacity>
       {loading ? (
         <View style={styles.loading}>
@@ -67,25 +79,29 @@ const PreviousRides = (props: any) => {
         </View>
       ) : (
         <SafeAreaView style={styles.safeAreaView}>
-          <View style={{flexDirection: 'row',marginLeft:wp(5)}}>
+          {/* <View style={{flexDirection: 'row', marginLeft: wp(5)}}>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
               <ArrowLeft />
             </TouchableOpacity>
 
             <Text
               style={{
-                fontFamily:'Roboto Mono',
+                fontFamily: 'Roboto Mono',
                 fontSize: hp(2.5),
                 color: '#000000',
                 marginBottom: hp(1),
-                marginLeft:wp(3),
-                fontWeight:'600'
+                marginLeft: wp(3),
+                fontWeight: '600',
               }}>
               Rides
             </Text>
-          </View>
+          </View> */}
 
-          <View style={[styles.container, {backgroundColor: '#fff'}]}>
+          <View
+            style={[
+              styles.container,
+              {backgroundColor: '#fff', marginTop: hp(1)},
+            ]}>
             {_isEmpty(userRides) ? (
               <View style={styles.noRidesContainer}>
                 <Text style={styles.noRidesContainerText}>
@@ -94,125 +110,125 @@ const PreviousRides = (props: any) => {
               </View>
             ) : (
               <ScrollView
-              style={{
-                backgroundColor: '#F2F3F7',
-                borderTopLeftRadius: 50,
-                borderTopRightRadius: 50,
-              }}>
-              {userRides?.length > 0 &&
-                userRides.map((rides: any, i: any) => {
-                  return (
-                    <View style={styles.rideView} key={i + 1}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          gap: wp(3),
-                        }}>
-                        <View style={{width: wp(55)}}>
-                          <View style={styles.spinnerMyAddressView}>
-                            <SmallPickupIcon />
-                            <Text style={styles.spinnerAddressText}>
-                              {rides.pickUpAddress}
-                            </Text>
-                          </View>
-  
-                          <View style={styles.commonDiplayStyles}>
-                            <View
-                              style={[
-                                styles.verticalLine,
-                                {
-                                  marginLeft: wp(3),
-                                  borderColor: '#6B7280',
-                                },
-                              ]}
-                            />
-                          </View>
-  
-                          <View style={styles.spinnerDropIconView}>
-                            <SmallDropIcon />
-                            <Text style={styles.spinnerAddressText}>
-                              {rides.dropAddress}
-                            </Text>
-                          </View>
-                        </View>
-                        <View>
-                          <Text
-                            style={{
-                              fontFamily:'Roboto Mono',
-                              color: '#000000',
-                              marginBottom: hp(0.5),
-                              fontWeight: '700',
-                              fontSize: wp(3.3),
-                            }}>
-                            {moment(rides.createdAt).format('Do MMM YYYY')}
-                          </Text>
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily:'Roboto Mono',
-                            color: '#000000',
-                            fontWeight: '500',
-                            marginLeft: wp(2),
-                          }}>
-                          ₹ {rides.fare}
-                        </Text>
+                style={{
+                  backgroundColor: '#F2F3F7',
+                  borderTopLeftRadius: 50,
+                  borderTopRightRadius: 50,
+                }}>
+                {userRides?.length > 0 &&
+                  userRides.map((rides: any, i: any) => {
+                    return (
+                      <View style={styles.rideView} key={i + 1}>
                         <View
                           style={{
-                            backgroundColor:
-                              rides?.status == 'cancelled'
-                                ? '#fad1d1'
-                                : rides?.status == 'completed'
-                                ? '#c6ebd3'
-                                : '#d9d1fa',
-                            // opacity: 0.4,
-                            paddingBottom: wp(1.8),
-                            paddingTop: wp(1.8),
-                            paddingLeft: wp(4),
-                            paddingRight: wp(4),
-                            borderRadius: hp(1.8),
-                            borderWidth: 2,
-                            borderColor:
-                              rides?.status == 'cancelled'
-                                ? '#EB5757'
-                                : rides?.status == 'completed'
-                                ? '#57c67c'
-                                : '#6847ed',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            gap: wp(3),
+                          }}>
+                          <View style={{width: wp(55)}}>
+                            <View style={styles.spinnerMyAddressView}>
+                              <SmallPickupIcon />
+                              <Text style={styles.spinnerAddressText}>
+                                {rides.pickUpAddress}
+                              </Text>
+                            </View>
+
+                            <View style={styles.commonDiplayStyles}>
+                              <View
+                                style={[
+                                  styles.verticalLine,
+                                  {
+                                    marginLeft: wp(3),
+                                    borderColor: '#6B7280',
+                                  },
+                                ]}
+                              />
+                            </View>
+
+                            <View style={styles.spinnerDropIconView}>
+                              <SmallDropIcon />
+                              <Text style={styles.spinnerAddressText}>
+                                {rides.dropAddress}
+                              </Text>
+                            </View>
+                          </View>
+                          <View>
+                            <Text
+                              style={{
+                                fontFamily: 'Roboto Mono',
+                                color: '#000000',
+                                marginBottom: hp(0.5),
+                                fontWeight: '700',
+                                fontSize: wp(3.3),
+                              }}>
+                              {moment(rides.createdAt).format('Do MMM YYYY')}
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                           }}>
                           <Text
                             style={{
-                              fontFamily:'Roboto Mono',
-                              color:
+                              fontFamily: 'Roboto Mono',
+                              color: '#000000',
+                              fontWeight: '500',
+                              marginLeft: wp(2),
+                            }}>
+                            ₹ {rides.fare}
+                          </Text>
+                          <View
+                            style={{
+                              backgroundColor:
+                                rides?.status == 'cancelled'
+                                  ? '#fad1d1'
+                                  : rides?.status == 'completed'
+                                  ? '#c6ebd3'
+                                  : '#d9d1fa',
+                              // opacity: 0.4,
+                              paddingBottom: wp(1.8),
+                              paddingTop: wp(1.8),
+                              paddingLeft: wp(4),
+                              paddingRight: wp(4),
+                              borderRadius: hp(1.8),
+                              borderWidth: 2,
+                              borderColor:
                                 rides?.status == 'cancelled'
                                   ? '#EB5757'
                                   : rides?.status == 'completed'
                                   ? '#57c67c'
                                   : '#6847ed',
-                              fontWeight: '600',
-                              fontSize: wp(3),
                             }}>
-                            {rides.status == 'pending-accept' && rides.bookingTime ? 'Scheduled' : rides.status.charAt(0).toUpperCase() +
-                              rides.status.slice(1)}
-                          </Text>
+                            <Text
+                              style={{
+                                fontFamily: 'Roboto Mono',
+                                color:
+                                  rides?.status == 'cancelled'
+                                    ? '#EB5757'
+                                    : rides?.status == 'completed'
+                                    ? '#57c67c'
+                                    : '#6847ed',
+                                fontWeight: '600',
+                                fontSize: wp(3),
+                              }}>
+                              {rides.status == 'pending-accept' &&
+                              rides.bookingTime
+                                ? 'Scheduled'
+                                : rides.status.charAt(0).toUpperCase() +
+                                  rides.status.slice(1)}
+                            </Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  );
-                })}
-            </ScrollView>
-              
+                    );
+                  })}
+              </ScrollView>
             )}
           </View>
-
-        
         </SafeAreaView>
       )}
     </>

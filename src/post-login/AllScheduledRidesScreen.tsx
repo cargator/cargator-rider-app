@@ -93,10 +93,22 @@ const AllScheduledRidesScreen = (props: any) => {
 
   return (
     <>
-     <TouchableOpacity
+      <TouchableOpacity
         style={styles.header}
         onPress={() => props.navigation.toggleDrawer()}>
         <SidebarIcon />
+        <View
+          style={{
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
+            flex: 1,
+            marginLeft: wp(2),
+            marginTop: hp(0.4),
+          }}>
+          <Text style={{fontSize: hp(3), fontFamily: 'RobotoMono-Regular'}}>
+            Schedule Rides
+          </Text>
+        </View>
       </TouchableOpacity>
       {loading ? (
         <View style={styles.loader}>

@@ -26,11 +26,13 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import DistanceIcon from '../components/svg/DistanceIcon';
 import { themeColor } from '../styles/styles';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import {useNavigation} from '@react-navigation/native';
 
 let date = new Date();
 let time = new Date();
 
 const BookingScreen = (props: any) => {
+  const navigation = useNavigation();
   const [dateModal, setDateModal] = useState<boolean>(false);
   const [timeModal, setTimeModal] = useState<boolean>(false);
   const [isRideScheduled, setIsRideScheduled] = useState<boolean>(false);
@@ -96,7 +98,7 @@ const BookingScreen = (props: any) => {
     const scheduledDate = date.toISOString().split('T')[0];
     const scheduledTime = time.toISOString().split('T')[1];
     const completeDate = new Date(`${scheduledDate}T${scheduledTime}`);
-    let minimumTime = new Date()
+    let minimumTime = new Date();
     minimumTime.setTime(minimumTime.getTime() + 1000 * 60 * 60);
     if (completeDate < minimumTime) {
       Toast.show({
@@ -147,7 +149,6 @@ const BookingScreen = (props: any) => {
         props.setCustomSpinner(true);
         props.setNavigationStep(2);
       }
-
     } catch (error) {
       console.log(`BookRide error :>> `, error);
     } finally {
@@ -183,28 +184,18 @@ const BookingScreen = (props: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea]}>
       <>
-        <View style={styles.mainView}>
+        {/* <View style={styles.mainView}>
           <TouchableOpacity
             onPress={() => {
               props.setNavigationStep(0);
             }}>
             <ArrowLeft />
           </TouchableOpacity>
+        </View> */}
 
-          <Text
-            style={{
-              color: '#000000',
-              fontWeight: '900',
-              fontSize: hp(3),
-              marginLeft: hp(2),
-            }}>
-            Booking Details
-          </Text>
-        </View>
-
-        <View style={styles.parentView}>
+        <View style={[styles.parentView, {marginTop: hp(1)}]}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.pickUpView}>
               <View>
@@ -252,12 +243,7 @@ const BookingScreen = (props: any) => {
               </View>
 
               <View>
-                <Text
-                  style={[
-                    styles.heading,
-                  ]}>
-                  Estimated Fare
-                </Text>
+                <Text style={[styles.heading]}>Estimated Fare</Text>
                 <Text
                   style={[
                     styles.heading,
@@ -346,8 +332,7 @@ const BookingScreen = (props: any) => {
                       fontSize: hp(1.7),
                     },
                   ]}>
-                  {props.distanceText} & 
-                  {props.durationText}
+                  {props.distanceText} &{props.durationText}
                 </Text>
               </View>
             </View>
@@ -398,7 +383,7 @@ const BookingScreen = (props: any) => {
           )}
         </View>
 
-        <View style={styles.button_container}>
+        <View style={[styles.button_container, {gap: wp(10)}]}>
           <TouchableOpacity
             onPress={BookRide}
             style={[
@@ -408,6 +393,7 @@ const BookingScreen = (props: any) => {
                 display: 'flex',
                 flexDirection: 'row',
                 bottom: Platform.OS == 'ios' ? 0 : hp(3),
+                width: wp(50),
               },
             ]}>
             <Text
@@ -422,6 +408,29 @@ const BookingScreen = (props: any) => {
             <View>
               <ArrowRight />
             </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.setNavigationStep(0)}
+            style={[
+              styles.button,
+              {
+                backgroundColor: 'red',
+                // display: 'flex',
+                flexDirection: 'row',
+                bottom: Platform.OS == 'ios' ? 0 : hp(3),
+                width: wp(30),
+              },
+            ]}>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: '800',
+                color: '#ffffff',
+                textAlign: 'center',
+              }}>
+              Cancel
+            </Text>
+            <View>{/* <ArrowRight /> */}</View>
           </TouchableOpacity>
         </View>
       </>
@@ -477,7 +486,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {backgroundColor: '#ffffff', height: hp(100), width: wp(100)},
   parentView: {
-    height: Platform.OS == 'android' ? hp(92) : hp(78),
+    // height: Platform.OS == 'android' ? hp(92) : hp(100),
     backgroundColor: '#F2F3F7',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,

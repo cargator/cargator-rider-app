@@ -1116,7 +1116,20 @@ const MapScreen = (props: any) => {
           {!customSpinner && (
             <View style={styles.header}>
               <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}>
-                <SidebarIcon />
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <SidebarIcon />
+                  {navigationStep == 1 && (
+                    <Text
+                      style={{
+                        fontSize: hp(3),
+                        fontFamily: 'RobotoMono-Regular',
+                        color: 'black',
+                        marginLeft: wp(1),
+                      }}>
+                      Booking Details
+                    </Text>
+                  )}
+                </View>
               </TouchableOpacity>
 
               <View style={styles.profileView}>
@@ -1501,7 +1514,7 @@ const MapScreen = (props: any) => {
                     style={styles.cancelButton}>
                     <Text
                       style={{
-                        fontFamily:'Roboto Mono',
+                        fontFamily: 'Roboto Mono',
                         fontWeight: '800',
                         color: '#EB5757',
                       }}>
@@ -1528,7 +1541,7 @@ const MapScreen = (props: any) => {
                           }}>
                           <Text
                             style={{
-                              fontFamily:'Roboto Mono',
+                              fontFamily: 'Roboto Mono',
                               marginBottom: 20,
                               fontSize: 16,
                               textAlign: 'center',
@@ -1597,7 +1610,10 @@ const MapScreen = (props: any) => {
                                 multiline={false}
                                 editable={false}
                                 scrollEnabled={true}
-                                style={{fontFamily:'Roboto Mono',color: '#000000'}}>
+                                style={{
+                                  fontFamily: 'Roboto Mono',
+                                  color: '#000000',
+                                }}>
                                 {rideDetails?.pickUpAddress}
                               </TextInput>
                             </ScrollView>
@@ -1623,7 +1639,10 @@ const MapScreen = (props: any) => {
                                 multiline={false}
                                 editable={false}
                                 scrollEnabled={true}
-                                style={{fontFamily:'Roboto Mono',color: '#000000'}}>
+                                style={{
+                                  fontFamily: 'Roboto Mono',
+                                  color: '#000000',
+                                }}>
                                 {rideDetails?.dropAddress}
                               </TextInput>
                             </ScrollView>
@@ -1843,8 +1862,12 @@ const MapScreen = (props: any) => {
                                     <SmallCarIcon />
                                   </View>
                                   <Text
-                                    style={[styles.text, {fontSize: hp(1.8), width:wp(40)}]}>
-                                    {' '}Car  :   {driverDetails.vehicleName}
+                                    style={[
+                                      styles.text,
+                                      {fontSize: hp(1.8), width: wp(40)},
+                                    ]}>
+                                    {' '}
+                                    Car : {driverDetails.vehicleName}
                                   </Text>
                                 </View>
                                 <View style={styles.ratingsView}>
@@ -1853,7 +1876,7 @@ const MapScreen = (props: any) => {
                                   </View>
                                   <Text
                                     style={[styles.text, {fontSize: hp(1.8)}]}>
-                                    4.9  ( 490  reviews)
+                                    4.9 ( 490 reviews)
                                   </Text>
                                 </View>
                               </View>

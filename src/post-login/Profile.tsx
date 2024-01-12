@@ -51,6 +51,18 @@ const Profile = (props: any) => {
         style={styles.header}
         onPress={() => props.navigation.toggleDrawer()}>
         <SidebarIcon />
+        <View
+          style={{
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
+            flex: 1,
+            marginLeft: wp(2),
+            marginTop: hp(0.4),
+          }}>
+          <Text style={{fontSize: hp(3), fontFamily: 'RobotoMono-Regular'}}>
+            Profile
+          </Text>
+        </View>
       </TouchableOpacity>
       {loading ? (
         <View style={styles.loaderStyles}>
@@ -80,7 +92,9 @@ const Profile = (props: any) => {
                 </View>
 
                 <View style={styles.contentView}>
-                  <Text style={styles.contentViewHeading}>Number of rides completed</Text>
+                  <Text style={styles.contentViewHeading}>
+                    Number of rides completed
+                  </Text>
                   <Text style={styles.contentViewText}>
                     {userData.totalRidesCompleted}
                   </Text>
@@ -88,14 +102,11 @@ const Profile = (props: any) => {
               </View>
             </View>
           </View>
-          <View
-            style={styles.bottomView}>
+          <View style={styles.bottomView}>
             <TouchableOpacity onPress={handleLogout}>
               <LogOutIcon />
             </TouchableOpacity>
-            <Text style={styles.date}>
-              Member Since {formattedDate}
-            </Text>
+            <Text style={styles.date}>Member Since {formattedDate}</Text>
           </View>
         </>
       )}
