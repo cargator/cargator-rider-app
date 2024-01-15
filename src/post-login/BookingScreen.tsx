@@ -184,9 +184,8 @@ const BookingScreen = (props: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.safeArea]}>
-      <>
-        {/* <View style={styles.mainView}>
+    <View style={[styles.safeArea]}>
+      {/* <View style={styles.mainView}>
           <TouchableOpacity
             onPress={() => {
               props.setNavigationStep(0);
@@ -195,246 +194,249 @@ const BookingScreen = (props: any) => {
           </TouchableOpacity>
         </View> */}
 
-        <View style={[styles.parentView, {marginTop: hp(1)}]}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.pickUpView}>
-              <View>
-                <PickBookingDetail />
-              </View>
-              <View>
-                <Text style={styles.heading}>Pickup Location</Text>
-                <Text
-                  style={[
-                    styles.text,
-                    {
-                      marginTop: hp(-2),
-                      marginBottom: hp(2),
-                      maxWidth: wp(70),
-                    },
-                  ]}>
-                  {props.myAddress}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.pickUpView}>
-              <View>
-                <DropBookingDetail />
-              </View>
-              <View>
-                <Text style={styles.heading}>Dropoff Location</Text>
-                <Text
-                  style={[
-                    styles.text,
-                    {
-                      marginTop: hp(-2),
-                      marginBottom: hp(2),
-                      maxWidth: wp(70),
-                    },
-                  ]}>
-                  {props.destAddress}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.pickUpView}>
-              <View>
-                <EstimatedBookingDetail />
-              </View>
-
-              <View>
-                <Text style={[styles.heading]}>Estimated Fare</Text>
-                <Text
-                  style={[
-                    styles.heading,
-                    {marginTop: hp(-2), marginBottom: hp(2)},
-                  ]}>
-                  {props.fare}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.pickUpView}>
-              <PreBookingIcon />
-
-              <View>
-                <Text
-                  style={{
-                    fontWeight: '800',
-                    color: '#000000',
-                    fontSize: hp(2),
-                    padding: wp(3),
-                  }}>
-                  Pre-Booking
-                </Text>
-
-                <RadioGroup
-                  radioButtons={radioButtonsScheduleRide}
-                  onPress={setSelectedIdScheduleRide}
-                  selectedId={selectedIdScheduleRide}
-                  layout="row"
-                  containerStyle={{marginTop: hp(-1), marginBottom: hp(2)}}
-                />
-
-                {scheduleRideDate && (
-                  <TouchableOpacity onPress={() => setDateModal(true)}>
-                    <Text style={styles.textScheduleRideDetail}>
-                      {scheduleRideDate.toString().slice(0, 21)}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-
-            <View style={styles.pickUpView}>
-              <View>
-                <PaymentBookingDetail />
-              </View>
-              <View style={{backgroundColor: '#ffffff', borderRadius: 12}}>
-                <Text
-                  style={{
-                    fontWeight: '800',
-                    color: '#000000',
-                    // margin: wp(5),
-                    fontSize: hp(2),
-                    padding: wp(3),
-                  }}>
-                  Payment Mode
-                </Text>
-                <RadioGroup
-                  radioButtons={radioButtons}
-                  onPress={setSelectedId}
-                  selectedId={selectedId}
-                  layout="row"
-                  containerStyle={{marginTop: hp(-1), marginBottom: hp(2)}}
-                />
-              </View>
-            </View>
-
-            <View style={styles.pickUpView}>
-              <View>
-                <DistanceIcon />
-              </View>
-              <View>
-                <Text
-                  style={[
-                    styles.heading,
-                    // {marginTop: Platform.OS == 'android' ? hp(-2) : hp(0)},
-                  ]}>
-                  Distance & Time
-                </Text>
-                <Text
-                  style={[
-                    styles.heading,
-                    {
-                      marginTop: hp(-2),
-                      marginBottom: hp(2),
-                      fontSize: hp(1.7),
-                    },
-                  ]}>
-                  {props.distanceText} &{props.durationText}
-                </Text>
-              </View>
-            </View>
-          </ScrollView>
-
-          {dateModal && (
-            <RNDateTimePicker
-              mode="date"
-              value={date}
-              minimumDate={new Date()}
-              onChange={(event, value: any) => {
-                if (event.type == 'dismissed') {
-                  setDateModal(false);
-                  if (!isRideScheduled) {
-                    setSelectedIdScheduleRide('0');
-                  }
-                } else if (event.type == 'set') {
-                  setDateModal(false);
-                  // setDate(value);
-                  date = value;
-                  if (date.toDateString() === time.toDateString()) {
-                    time.setTime(time.getTime() + 1000 * 60 * 60);
-                  }
-                  setTimeModal(true);
-                }
-              }}
-            />
-          )}
-
-          {timeModal && (
-            <RNDateTimePicker
-              mode="time"
-              value={time}
-              minimumDate={new Date()}
-              onChange={(event, value: any) => {
-                if (event.type == 'dismissed') {
-                  setTimeModal(false);
-                  setSelectedIdScheduleRide('0');
-                } else if (event.type == 'set') {
-                  setTimeModal(false);
-                  // setTime(value);
-                  time = value;
-                  // confirmScheduleRide();
-                  handleRideScheduled();
-                }
-              }}
-            />
-          )}
-        </View>
-
-        <View style={[styles.button_container, {gap: wp(10)}]}>
-          <TouchableOpacity
-            onPress={BookRide}
-            style={[
-              styles.button,
-              {
-                backgroundColor: themeColor,
-                display: 'flex',
-                flexDirection: 'row',
-                bottom: Platform.OS == 'ios' ? 0 : hp(3),
-                width: wp(50),
-              },
-            ]}>
-            <Text
-              style={{
-                flex: 1,
-                fontWeight: '800',
-                color: '#ffffff',
-                textAlign: 'center',
-              }}>
-              Confirm Booking
-            </Text>
+      <View style={[styles.parentView, {marginTop: hp(1)}]}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: hp(18),
+          }}>
+          <View style={styles.pickUpView}>
             <View>
-              <ArrowRight />
+              <PickBookingDetail />
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.setNavigationStep(0)}
-            style={[
-              styles.button,
-              {
-                backgroundColor: 'red',
-                // display: 'flex',
-                flexDirection: 'row',
-                bottom: Platform.OS == 'ios' ? 0 : hp(3),
-                width: wp(30),
-              },
-            ]}>
-            <Text
-              style={{
-                flex: 1,
-                fontWeight: '800',
-                color: '#ffffff',
-                textAlign: 'center',
-              }}>
-              Cancel
-            </Text>
-            <View>{/* <ArrowRight /> */}</View>
-          </TouchableOpacity>
-        </View>
-      </>
-    </SafeAreaView>
+            <View>
+              <Text style={styles.heading}>Pickup Location</Text>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    marginTop: hp(-2),
+                    marginBottom: hp(2),
+                    maxWidth: wp(70),
+                  },
+                ]}>
+                {props.myAddress}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.pickUpView}>
+            <View>
+              <DropBookingDetail />
+            </View>
+            <View>
+              <Text style={styles.heading}>Dropoff Location</Text>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    marginTop: hp(-2),
+                    marginBottom: hp(2),
+                    maxWidth: wp(70),
+                  },
+                ]}>
+                {props.destAddress}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.pickUpView}>
+            <View>
+              <EstimatedBookingDetail />
+            </View>
+
+            <View>
+              <Text style={[styles.heading]}>Estimated Fare</Text>
+              <Text
+                style={[
+                  styles.heading,
+                  {marginTop: hp(-2), marginBottom: hp(2)},
+                ]}>
+                {props.fare}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.pickUpView}>
+            <PreBookingIcon />
+
+            <View>
+              <Text
+                style={{
+                  fontWeight: '800',
+                  color: '#000000',
+                  fontSize: hp(2),
+                  padding: wp(3),
+                }}>
+                Pre-Booking
+              </Text>
+
+              <RadioGroup
+                radioButtons={radioButtonsScheduleRide}
+                onPress={setSelectedIdScheduleRide}
+                selectedId={selectedIdScheduleRide}
+                layout="row"
+                containerStyle={{marginTop: hp(-1), marginBottom: hp(2)}}
+              />
+
+              {scheduleRideDate && (
+                <TouchableOpacity onPress={() => setDateModal(true)}>
+                  <Text style={styles.textScheduleRideDetail}>
+                    {scheduleRideDate.toString().slice(0, 21)}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+
+          <View style={styles.pickUpView}>
+            <View>
+              <PaymentBookingDetail />
+            </View>
+            <View style={{backgroundColor: '#ffffff', borderRadius: 12}}>
+              <Text
+                style={{
+                  fontWeight: '800',
+                  color: '#000000',
+                  // margin: wp(5),
+                  fontSize: hp(2),
+                  padding: wp(3),
+                }}>
+                Payment Mode
+              </Text>
+              <RadioGroup
+                radioButtons={radioButtons}
+                onPress={setSelectedId}
+                selectedId={selectedId}
+                layout="row"
+                containerStyle={{marginTop: hp(-1), marginBottom: hp(2)}}
+              />
+            </View>
+          </View>
+
+          <View style={styles.pickUpView}>
+            <View>
+              <DistanceIcon />
+            </View>
+            <View>
+              <Text
+                style={[
+                  styles.heading,
+                  // {marginTop: Platform.OS == 'android' ? hp(-2) : hp(0)},
+                ]}>
+                Distance & Time
+              </Text>
+              <Text
+                style={[
+                  styles.heading,
+                  {
+                    marginTop: hp(-2),
+                    marginBottom: hp(2),
+                    fontSize: hp(1.7),
+                  },
+                ]}>
+                {props.distanceText} &{props.durationText}
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+
+        {dateModal && (
+          <RNDateTimePicker
+            mode="date"
+            value={date}
+            minimumDate={new Date()}
+            onChange={(event, value: any) => {
+              if (event.type == 'dismissed') {
+                setDateModal(false);
+                if (!isRideScheduled) {
+                  setSelectedIdScheduleRide('0');
+                }
+              } else if (event.type == 'set') {
+                setDateModal(false);
+                // setDate(value);
+                date = value;
+                if (date.toDateString() === time.toDateString()) {
+                  time.setTime(time.getTime() + 1000 * 60 * 60);
+                }
+                setTimeModal(true);
+              }
+            }}
+          />
+        )}
+
+        {timeModal && (
+          <RNDateTimePicker
+            mode="time"
+            value={time}
+            minimumDate={new Date()}
+            onChange={(event, value: any) => {
+              if (event.type == 'dismissed') {
+                setTimeModal(false);
+                setSelectedIdScheduleRide('0');
+              } else if (event.type == 'set') {
+                setTimeModal(false);
+                // setTime(value);
+                time = value;
+                // confirmScheduleRide();
+                handleRideScheduled();
+              }
+            }}
+          />
+        )}
+      </View>
+
+      <View style={[styles.button_container, {gap: wp(10)}]}>
+        <TouchableOpacity
+          onPress={BookRide}
+          style={[
+            styles.button,
+            {
+              backgroundColor: themeColor,
+              display: 'flex',
+              flexDirection: 'row',
+              bottom: Platform.OS == 'ios' ? 0 : hp(3),
+              width: wp(50),
+            },
+          ]}>
+          <Text
+            style={{
+              flex: 1,
+              fontWeight: '800',
+              color: '#ffffff',
+              textAlign: 'center',
+            }}>
+            Confirm Booking
+          </Text>
+          <View>
+            <ArrowRight />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.setNavigationStep(0)}
+          style={[
+            styles.button,
+            {
+              backgroundColor: 'red',
+              // display: 'flex',
+              flexDirection: 'row',
+              bottom: Platform.OS == 'ios' ? 0 : hp(3),
+              width: wp(30),
+            },
+          ]}>
+          <Text
+            style={{
+              flex: 1,
+              fontWeight: '800',
+              color: '#ffffff',
+              textAlign: 'center',
+            }}>
+            Cancel
+          </Text>
+          <View>{/* <ArrowRight /> */}</View>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -484,7 +486,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#F2F3F7',
   },
-  safeArea: {backgroundColor: '#ffffff', height: hp(100), width: wp(100)},
+  safeArea: {backgroundColor: '#ffffff', flex: 1, minHeight: hp(100)},
   parentView: {
     // height: Platform.OS == 'android' ? hp(92) : hp(100),
     backgroundColor: '#F2F3F7',

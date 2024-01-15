@@ -1069,12 +1069,14 @@ const MapScreen = (props: any) => {
   }, []);
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
+    <View
+      onTouchStart={() => {
+        //? to hide logout button
         if (isProfileModal) {
           setIsProfileModal(false);
         }
-      }}>
+      }}
+      style={{flex: 1}}>
       <View style={[ExternalStyles.parentView, {justifyContent: 'center'}]}>
         {loading &&
           rideDetails?.status != 'pending-payment' &&
@@ -1131,9 +1133,10 @@ const MapScreen = (props: any) => {
                   )}
                 </View>
               </TouchableOpacity>
-
+              {/* //? to show logut button */}
               <View style={styles.profileView}>
                 <TouchableOpacity
+                  hitSlop={hp(2)}
                   onPress={() => setIsProfileModal(!isProfileModal)}>
                   <Text style={styles.profileText}>
                     {userData.name ? userData.name[0].toUpperCase() : 'R'}
@@ -1990,7 +1993,7 @@ const MapScreen = (props: any) => {
           )}
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 

@@ -14,6 +14,7 @@ const LoaderComponent = () => {
         alignItems: 'center',
         zIndex: 2,
         backgroundColor: 'transparent',
+        marginBottom: hp(20),
       }}>
       <ActivityIndicator size="large" color="#B146C2" />
     </View>

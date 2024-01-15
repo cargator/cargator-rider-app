@@ -32,8 +32,8 @@ const PreviousRides = (props: any) => {
   const getUserRideDetails = async () => {
     try {
       setLoading(true);
-      const resp = await getAllRides(userId)
-      console.log("resp rides", resp)
+      const resp = await getAllRides(userId);
+      // console.log("resp rides", resp)
       setUserRides(resp.data);
     } catch (error: any) {
       console.log('getUserRideDetails error :>> ', error);
