@@ -396,7 +396,7 @@ const MapScreen = (props: any) => {
     });
     setCustomSpinner(false);
     setIsProfileModal(false);
-    setPopup(false)
+    setPopup(false);
     setUnseenMessagesCount(0);
     setNavigationStep(0);
     setDestLocation({
@@ -469,7 +469,9 @@ const MapScreen = (props: any) => {
   const getAddress = async (location: {latitude: any; longitude: any}) => {
     try {
       if (
-        !_isNumber(location.latitude) || location.latitude === 0 || location.longitude === 0 ||
+        !_isNumber(location.latitude) ||
+        location.latitude === 0 ||
+        location.longitude === 0 ||
         !_isNumber(location.longitude) ||
         myAddress
       ) {
@@ -1070,11 +1072,12 @@ const MapScreen = (props: any) => {
 
   return (
     <View
-      onTouchStart={() => {
+      onStartShouldSetResponder={() => {
         //? to hide logout button
         if (isProfileModal) {
           setIsProfileModal(false);
         }
+        return false;
       }}
       style={{flex: 1}}>
       <View style={[ExternalStyles.parentView, {justifyContent: 'center'}]}>
@@ -1136,7 +1139,7 @@ const MapScreen = (props: any) => {
               {/* //? to show logut button */}
               <View style={styles.profileView}>
                 <TouchableOpacity
-                  hitSlop={hp(2)}
+                  hitSlop={{left: wp(5), right: wp(5), top: hp(1)}}
                   onPress={() => setIsProfileModal(!isProfileModal)}>
                   <Text style={styles.profileText}>
                     {userData.name ? userData.name[0].toUpperCase() : 'R'}
