@@ -78,7 +78,7 @@ android {
         applicationId "com.codeb.cargatorrider"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 23
+        versionCode 24
         versionName "1.0.0"
     }
     signingConfigs {
