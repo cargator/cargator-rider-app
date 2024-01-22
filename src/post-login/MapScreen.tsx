@@ -77,6 +77,7 @@ import {
   getCoordsFromAddress,
 } from '../services/mapservices';
 import {getUtils} from '../services/userservices';
+import customAxios from '../services/appservices';
 // import * as _ from 'lodash';
 // import { dummy_Path, dummy_distance, dummy_duration, dummy_nearbyDrivers } from './dummyData';
 
@@ -141,6 +142,7 @@ const MapScreen = (props: any) => {
   const [selection_1, setSelection_1] = useState<any>({start: 0});
   const [selection_2, setSelection_2] = useState<any>({start: 0});
   const [driverArrivalTime, setDriverArrivalTime] = useState<string>('');
+  const [deleteModal, setDeleteModal] = useState(false);
   // const [isScheduleRide, setIsScheduleRide] = useState<boolean>(false);
   // const [scheduledRideDetails, setScheduledRideDetails] = useState<any>([]);
   // const paymentCompleted = useSelector((store: any) => store.paymentCompleted);
@@ -945,6 +947,23 @@ const MapScreen = (props: any) => {
     }
     return flag;
   };
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const res = await customAxios.delete(`/deleteRider/${userData._id}`);
+      if (res) {
+        Toast.show({
+          type: 'success',
+          text1: 'Account Deleted successfully !!',
+        });
+        handleLogout();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     handleRideStatus();
@@ -1068,6 +1087,7 @@ const MapScreen = (props: any) => {
         console.log('getSocketInstance error :>> ', err);
       }
     })();
+    console.log({userData});
   }, []);
 
   return (
@@ -1110,12 +1130,59 @@ const MapScreen = (props: any) => {
             </View>
           )}
 
+          {/* {isProfileModal && (
+            <>
+              <TouchableOpacity
+                style={styles.profileModalView}
+                onPress={handleLogout}>
+                <Text style={styles.logoutText}>Logout</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.profileModalView}
+                onPress={handleLogout}>
+                <Text style={styles.logoutText}>Delete</Text>
+              </TouchableOpacity>
+            </>
+          )} */}
+
           {isProfileModal && (
-            <TouchableOpacity
-              style={styles.profileModalView}
-              onPress={handleLogout}>
-              <Text style={styles.logoutText}>Logout</Text>
-            </TouchableOpacity>
+            <View style={styles.profileModalView}>
+              <TouchableOpacity onPress={handleLogout}>
+                <Text style={styles.logoutText}>Logout</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setDeleteModal(true);
+                  setIsProfileModal(false);
+                }}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {deleteModal && (
+            <View style={styles.deleteContainer}>
+              <View style={styles.modalContainer}>
+                {deleteModal && (
+                  <View style={styles.modalContent}>
+                    <Text style={styles.modalText1}>
+                      Are you sure you want to delete?
+                    </Text>
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.deleteButton}
+                        onPress={handleDelete}>
+                        <Text style={styles.buttonText}>Yes</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.cancelButton}
+                        onPress={() => setDeleteModal(false)}>
+                        <Text style={styles.buttonText}>No</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              </View>
+            </View>
           )}
 
           {!customSpinner && (
@@ -1157,7 +1224,7 @@ const MapScreen = (props: any) => {
             />
           )} */}
 
-          {navigationStep == 0 && (
+          {navigationStep == 0 && !deleteModal && (
             <>
               <View style={styles.autoCompleteView1}>
                 <View
@@ -2018,6 +2085,82 @@ const MapScreen = (props: any) => {
 };
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  deleteButton: {
+    backgroundColor: '#FF5050',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    width: '45%',
+    alignItems: 'center',
+  },
+
+  deleteText: {
+    fontFamily: 'RobotoMono-Regular',
+    fontSize: wp(4.5),
+    fontWeight: 'bold',
+    color: 'red',
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cancelButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    width: '45%',
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    fontFamily: 'RobotoMono-Regular',
+    color: '#fff',
+    fontSize: 16,
+  },
+
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+  },
+
+  modalText1: {
+    fontFamily: 'RobotoMono-Regular',
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  deleteContainer: {
+    display: 'flex',
+    width: wp(100),
+    height: hp(100),
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    zIndex: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  deleteModal: {
+    backgroundColor: 'white',
+    width: wp(60),
+    height: hp(20),
+    zIndex: 10,
+    top: hp(0),
+    left: wp(0),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   ParentSpinner: {
     alignSelf: 'center',
     position: 'relative',
@@ -2031,8 +2174,8 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: '900',
   },
-  cancelButton: {
-    fontFamily: 'Roboto Mono',
+  cancelButtonDelete: {
+    fontFamily:  'Roboto Mono',
     padding: wp(3),
     alignSelf: 'center',
     justifyContent: 'center',
@@ -2045,8 +2188,8 @@ const styles = StyleSheet.create({
     borderRadius: wp(4),
     width: wp(90),
   },
-  buttonText: {
-    fontFamily: 'Roboto Mono',
+  buttonTextDelete: {
+    fontFamily:  'Roboto Mono',
     color: '#ffffff',
     textAlign: 'center',
   },
