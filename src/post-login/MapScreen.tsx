@@ -1250,6 +1250,23 @@ const MapScreen = (props: any) => {
                     },
                   ]}
                 />
+                { !myAddress && <View
+                  style={{
+                    backgroundColor: 'white',
+                    width: wp(100),
+                    height: hp(40),
+                    position: 'absolute',
+                    marginTop: hp(60),
+                    borderRadius: 20,
+                    zIndex: 121,
+                    overflow: 'hidden',
+                    justifyContent:'center',
+                    alignItems:'center'
+                  }}>
+                  <View style={{width:wp(80)}}>
+                    <Text>Currently unavailable in your area. Stay tuned for updates on our expansion!</Text>
+                  </View>
+                </View>}
 
                 <View
                   style={[
@@ -2015,7 +2032,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   cancelButton: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     padding: wp(3),
     alignSelf: 'center',
     justifyContent: 'center',
@@ -2029,7 +2046,7 @@ const styles = StyleSheet.create({
     width: wp(90),
   },
   buttonText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#ffffff',
     textAlign: 'center',
   },
@@ -2095,8 +2112,13 @@ const styles = StyleSheet.create({
     bottom: hp(28),
     justifyContent: 'center',
   },
-  text: {fontFamily:'Roboto Mono',color: 'grey', fontSize: hp(2)},
-  heading: {fontFamily:'Roboto Mono',fontWeight: '800', color: '#000000', fontSize: hp(2.5)},
+  text: {fontFamily: 'Roboto Mono', color: 'grey', fontSize: hp(2)},
+  heading: {
+    fontFamily: 'Roboto Mono',
+    fontWeight: '800',
+    color: '#000000',
+    fontSize: hp(2.5),
+  },
   profileModalView: {
     backgroundColor: 'white',
     borderRadius: wp(2),
@@ -2125,7 +2147,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   logoutText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     fontSize: wp(4.5),
     fontWeight: 'bold',
     color: '#000000',
@@ -2159,7 +2181,7 @@ const styles = StyleSheet.create({
     top: hp(7),
     borderRadius: wp(5),
   },
-  profileText: {fontFamily:'Roboto Mono',color: '#ffffff', fontSize: wp(5)},
+  profileText: {fontFamily: 'Roboto Mono', color: '#ffffff', fontSize: wp(5)},
   horixontalLine: {
     backgroundColor: '#E5E7EB',
     height: 1,
@@ -2208,14 +2230,18 @@ const styles = StyleSheet.create({
     minWidth: wp(65),
     backgroundColor: 'transparent',
   },
-  autoCompleteText: {fontFamily:'Roboto Mono',color: '#000000', margin: wp(2)},
+  autoCompleteText: {
+    fontFamily: 'Roboto Mono',
+    color: '#000000',
+    margin: wp(2),
+  },
   clearTextView: {
     position: 'absolute',
     right: wp(1),
     top: hp(1),
   },
   clearText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#000000',
     fontWeight: '700',
     fontSize: hp(2),
@@ -2263,7 +2289,7 @@ const styles = StyleSheet.create({
     paddingRight: wp(5),
   },
   rideInfoText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#000000',
     fontWeight: '500',
     alignSelf: 'center',
@@ -2288,7 +2314,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(80),
   },
   spinnerAddressText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#000000',
     marginLeft: wp(2),
     fontWeight: '500',
@@ -2310,7 +2336,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(80),
   },
   boldText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     marginTop: hp(10),
     fontSize: hp(2.5),
     fontWeight: '600',
@@ -2318,7 +2344,7 @@ const styles = StyleSheet.create({
     color: '#212121',
   },
   holdOntext: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     marginTop: hp(1),
     fontSize: hp(2),
     fontWeight: '500',
@@ -2352,7 +2378,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   paymentText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#212121',
     fontWeight: '600',
   },
@@ -2417,7 +2443,7 @@ const styles = StyleSheet.create({
     fontSize: hp(2),
   },
   customText: {
-    fontFamily:'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#212121',
     fontWeight: '500',
   },
