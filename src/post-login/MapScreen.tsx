@@ -43,6 +43,8 @@ import DropIcon from '../components/svg/DropIcon';
 import ArrowRight from '../components/svg/ArrowRight';
 import SmallCarIcon from '../components/svg/SmallCarIcon';
 import RatingStarIcon from '../components/svg/RatingStarIcon';
+import LocationNotFound from '../components/svg/LocationNotFound';
+import Internet from '../components/svg/Internet';
 import RazorpayCheckout from 'react-native-razorpay';
 import {
   removeOrderId,
@@ -1317,23 +1319,37 @@ const MapScreen = (props: any) => {
                     },
                   ]}
                 />
-                { !myAddress && <View
-                  style={{
-                    backgroundColor: 'white',
-                    width: wp(100),
-                    height: hp(40),
-                    position: 'absolute',
-                    marginTop: hp(60),
-                    borderRadius: 20,
-                    zIndex: 121,
-                    overflow: 'hidden',
-                    justifyContent:'center',
-                    alignItems:'center'
-                  }}>
-                  <View style={{width:wp(80)}}>
-                    <Text>Currently unavailable in your area. Stay tuned for updates on our expansion!</Text>
+                {!myAddress && (
+                  <View
+                    style={{
+                      backgroundColor: 'white',
+                      width: wp(100),
+                      height: hp(40),
+                      position: 'absolute',
+                      marginTop: hp(60),
+                      borderRadius: 20,
+                      overflow: 'hidden',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <LocationNotFound width={80} height={100} />
+                    <View
+                      style={{
+                        width: wp(80),
+                        marginBottom: hp(10),
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{fontFamily:'Roboto Mono',fontWeight:'500',fontSize:wp(3.6)}}>
+                        Currently unavailable in your area. Stay tuned for
+                      </Text>
+                      <View style={{display:'flex',flexDirection:'row',fontSize:wp(3.6)}}>
+                        <Text style={{fontFamily:'Roboto Mono',fontWeight:'500'}}>updates on our expansion!</Text>
+                        <Internet width={20} height={20} />
+                      </View>
+                    </View>
                   </View>
-                </View>}
+                )}
 
                 <View
                   style={[
@@ -2175,7 +2191,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   cancelButtonDelete: {
-    fontFamily:  'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     padding: wp(3),
     alignSelf: 'center',
     justifyContent: 'center',
@@ -2189,7 +2205,7 @@ const styles = StyleSheet.create({
     width: wp(90),
   },
   buttonTextDelete: {
-    fontFamily:  'Roboto Mono',
+    fontFamily: 'Roboto Mono',
     color: '#ffffff',
     textAlign: 'center',
   },
