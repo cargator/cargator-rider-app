@@ -131,6 +131,7 @@ const BookingScreen = (props: any) => {
         dropAddress: props.destAddress,
         distance: props.distance.text,
         duration: props.duration.text,
+        platform: props.platform,
         pickupToDropPath: props.path,
         fare: props.fare,
         paymentMode: radioButtons[selectedId]['value'],

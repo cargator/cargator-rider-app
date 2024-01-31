@@ -1551,6 +1551,7 @@ const MapScreen = (props: any) => {
           {navigationStep == 1 && (
             <BookingScreen
               myAddress={myAddress}
+              platform={Platform.OS}
               destAddress={destAddress}
               distance={distance}
               duration={duration}
