@@ -136,7 +136,7 @@ const LoginOtpScreen = ({route}: any) => {
             <View style={styles.otpView}>
               <OTPInputView
                 style={styles.otpInputStyle}
-                pinCount={6}
+                pinCount={4}
                 code={OTP} // You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
                 onCodeChanged={code => {
                   setOTP(code);
