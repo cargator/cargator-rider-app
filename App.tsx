@@ -6,7 +6,7 @@
  */
 
 import 'react-native-gesture-handler';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -15,6 +15,7 @@ import {
   Appearance,
   PermissionsAndroid,
   Platform,
+  View,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import store, {persistor, setRiderLocation} from './src/redux/redux';
@@ -46,6 +47,8 @@ import toastConfig from './src/components/common/toastConfig';
 import ScheduleRideScreen from './src/post-login/ScheduleRideScreen';
 import AllScheduledRidesScreen from './src/post-login/AllScheduledRidesScreen';
 import AddProfilDetails from './src/post-login/AddProfileDetails';
+import {Text} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 // import {enableLatestRenderer} from 'react-native-maps';
 
 // enableLatestRenderer();
@@ -53,6 +56,16 @@ Appearance.setColorScheme('light');
 const Drawer = createDrawerNavigator();
 
 const MapScreenDrawer = () => {
+  const [versionNumber, setVersionNumber] = useState("");
+
+  useEffect(() => {
+    const getVersion = async () => {
+      const version = DeviceInfo.getVersion();
+      setVersionNumber(version);
+    };
+
+    getVersion();
+  }, []);
   return (
     <Drawer.Navigator screenOptions={{headerShown: false}}>
       <Drawer.Screen
@@ -82,6 +95,16 @@ const MapScreenDrawer = () => {
         name="Scheduled Rides"
         component={AllScheduledRidesScreen}
       />
+      <Drawer.Screen
+        name="VersionScreen"
+        component={MapScreenDrawer}
+        options={{
+          drawerLabel: () => (
+            <View style={{flex: 1 ,alignItems: 'center', marginTop: '250%'}}>
+              <Text>{`Version ${versionNumber}`}</Text>
+            </View>
+          ),
+        }}/>
     </Drawer.Navigator>
   );
 };
