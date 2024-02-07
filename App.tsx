@@ -40,7 +40,7 @@ import {
 } from './src/components/common/functions';
 import LocationPermissionScreen from './src/pre-login/LocationPermissionScreen';
 import GPSPermissionScreen from './src/pre-login/GPSPermissionScreen';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {DrawerContentScrollView, DrawerItem, DrawerItemList, createDrawerNavigator} from '@react-navigation/drawer';
 import Profile from './src/post-login/Profile';
 import PreviousRides from './src/post-login/PreviousRides';
 import toastConfig from './src/components/common/toastConfig';
@@ -52,11 +52,9 @@ import DeviceInfo from 'react-native-device-info';
 // import {enableLatestRenderer} from 'react-native-maps';
 
 // enableLatestRenderer();
-Appearance.setColorScheme('light');
-const Drawer = createDrawerNavigator();
 
-const MapScreenDrawer = () => {
-  const [versionNumber, setVersionNumber] = useState("");
+const Appdrawercontent = (props: any) => {
+  const [versionNumber, setVersionNumber] = useState('');
 
   useEffect(() => {
     const getVersion = async () => {
@@ -67,45 +65,64 @@ const MapScreenDrawer = () => {
     getVersion();
   }, []);
   return (
-    <Drawer.Navigator screenOptions={{headerShown: false}}>
-      <Drawer.Screen
-        name="Home"
-        component={MapScreen}
-        // options={{
-        //   drawerItemStyle: {display: 'none'},
-        // }}
-      />
-      <Drawer.Screen
-        name="BookingScreen"
-        component={BookingScreen}
-        options={{
-          drawerItemStyle: {display: 'none'},
-        }}
-      />
-      {/* <Drawer.Screen
+    <View style={{flex: 1, height: '100%'}}>
+        <DrawerContentScrollView
+        {...props}
+        contentcontainerstyle={{flex: 1, position: 'relative'}}>
+        <DrawerItemList {...props} style={{borderwidth: 1}} />
+      </DrawerContentScrollView>
+      <View style={{alignSelf: 'center', marginBottom: hp(1)}}>
+        <Text style={{fontWeight: '600'}}>{`Version ${versionNumber}`}</Text>
+      </View>
+    </View>
+  );
+};
+
+Appearance.setColorScheme('light');
+const Drawer = createDrawerNavigator();
+
+const MapScreenDrawer = () => {
+  const [versionNumber, setVersionNumber] = useState('');
+
+  useEffect(() => {
+    const getVersion = async () => {
+      const version = DeviceInfo.getVersion();
+      setVersionNumber(version);
+    };
+
+    getVersion();
+  }, []);
+  return (
+      <Drawer.Navigator screenOptions={{headerShown: false}}
+        drawerContent={props => <Appdrawercontent {...props} />}>
+        <Drawer.Screen
+          name="Home"
+          component={MapScreen}
+          // options={{
+          //   drawerItemStyle: {display: 'none'},
+          // }}
+        />
+        <Drawer.Screen
+          name="BookingScreen"
+          component={BookingScreen}
+          options={{
+            drawerItemStyle: {display: 'none'},
+          }}
+        />
+        {/* <Drawer.Screen
         name="ScheduleRideScreen"
         component={ScheduleRideScreen}
         options={{
           drawerItemStyle: {display: 'none'},
         }}
       /> */}
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="Previous Rides" component={PreviousRides} />
-      <Drawer.Screen
-        name="Scheduled Rides"
-        component={AllScheduledRidesScreen}
-      />
-      <Drawer.Screen
-        name="VersionScreen"
-        component={MapScreenDrawer}
-        options={{
-          drawerLabel: () => (
-            <View style={{flex: 1 ,alignItems: 'center', marginTop: '250%'}}>
-              <Text>{`Version ${versionNumber}`}</Text>
-            </View>
-          ),
-        }}/>
-    </Drawer.Navigator>
+        <Drawer.Screen name="Profile" component={Profile} />
+        <Drawer.Screen name="Previous Rides" component={PreviousRides} />
+        <Drawer.Screen
+          name="Scheduled Rides"
+          component={AllScheduledRidesScreen}
+        />
+      </Drawer.Navigator>
   );
 };
 
@@ -134,7 +151,7 @@ export const Routing = () => {
         initialRouteName="LoginScreen"
         screenOptions={{
           headerShown: false,
-          orientation:'portrait'
+          orientation: 'portrait',
         }}>
         {!loginToken ? (
           <>
