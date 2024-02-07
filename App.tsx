@@ -134,6 +134,7 @@ export const Routing = () => {
         initialRouteName="LoginScreen"
         screenOptions={{
           headerShown: false,
+          orientation:'portrait'
         }}>
         {!loginToken ? (
           <>

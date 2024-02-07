@@ -87,7 +87,7 @@ const Profile = (props: any) => {
                 <View style={styles.contentView}>
                   <Text style={styles.contentViewHeading}>Mobile number</Text>
                   <Text style={styles.contentViewText}>
-                    {userData.mobileNumber}
+                    +{userData.mobileNumber}
                   </Text>
                 </View>
 

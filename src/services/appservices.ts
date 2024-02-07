@@ -2,8 +2,9 @@ import axios from 'axios';
 import store from '../redux/redux';
 
 const customAxios = axios.create({
-  baseURL: `https://cab-e-socket-service-dev-fa3ocuxbpq-el.a.run.app`,
-  // baseURL: `https://74cf-182-48-214-43.ngrok-free.app`,
+  // baseURL: `https://cab-e-socket-service-dev-fa3ocuxbpq-el.a.run.app`,
+  // baseURL: `https://648d-182-48-212-31.ngrok-free.app`,
+  baseURL: `https://cargator-mtepodzz4a-as.a.run.app`,
 });
 
 customAxios.interceptors.request.use(
