@@ -7,7 +7,7 @@ let socketDetails = {status: 'disconnected'};
 function socketConnection(token) {
   return new Promise((resolve, reject) => {
     socket = io.connect(
-      `https://cargator-mtepodzz4a-as.a.run.app?token=${token}`,
+      `https://api.cargator.org?token=${token}`,
       // `http://192.168.1.125:3001?token=${token}`,
       {transports: ['websocket']},
     );
