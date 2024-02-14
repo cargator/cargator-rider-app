@@ -1092,6 +1092,10 @@ const MapScreen = (props: any) => {
     console.log({userData});
   }, []);
 
+  useEffect(() => {
+    console.log('myLocation', mylocation);
+  }, [mylocation]);
+
   return (
     <View
       onStartShouldSetResponder={() => {
@@ -1340,11 +1344,27 @@ const MapScreen = (props: any) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}>
-                      <Text style={{fontFamily:'Roboto Mono',fontWeight:'500',fontSize:wp(3.6)}}>
+                      <Text
+                        style={{
+                          fontFamily: 'Roboto Mono',
+                          fontWeight: '500',
+                          fontSize: wp(3.6),
+                        }}>
                         Currently unavailable in your area. Stay tuned for
                       </Text>
-                      <View style={{display:'flex',flexDirection:'row',fontSize:wp(3.6)}}>
-                        <Text style={{fontFamily:'Roboto Mono',fontWeight:'500'}}>updates on our expansion!</Text>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          fontSize: wp(3.6),
+                        }}>
+                        <Text
+                          style={{
+                            fontFamily: 'Roboto Mono',
+                            fontWeight: '500',
+                          }}>
+                          updates on our expansion!
+                        </Text>
                         <Internet width={20} height={20} />
                       </View>
                     </View>
@@ -1448,18 +1468,30 @@ const MapScreen = (props: any) => {
                       latitudeDelta: 0.0122,
                       longitudeDelta: 0.0121,
                     }}
+                    //   onRegionChange={(region) => {
+                    //     // No need to update mylocation here, just update the marker's coordinate
+                    //     setMyLocation(region);
+                    // }}
+                    onRegionChangeComplete={region => {
+                      // Update marker coordinates based on the center of the map region
+                      setMyLocation({
+                        latitude: region.latitude,
+                        longitude: region.longitude,
+                      });
+                    }}
                     initialRegion={{
                       latitude: mylocation.latitude,
                       longitude: mylocation.longitude,
                       latitudeDelta: 0.0122,
                       longitudeDelta: 0.0121,
-                    }}>
-                    {_isNumber(mylocation.latitude) && myAddress && (
-                      <Marker
-                        identifier="pickup"
-                        // pinColor="blue"
-                        coordinate={{
-                          // latitude: mylocation.latitude,
+                    }}
+                  >
+                    <Marker
+                      identifier="pickup"
+                      draggable={true}
+                      // pinColor="blue"
+                      coordinate={{
+                        // latitude: mylocation.latitude,
                           // longitude: mylocation.longitude,
                           // latitudeDelta: 0.0622,
                           // longitudeDelta: 0.0121,
@@ -1470,10 +1502,16 @@ const MapScreen = (props: any) => {
                           longitude: path[0]?.longitude
                             ? path[0].longitude
                             : mylocation.longitude,
-                        }}>
-                        {path.length > 0 && <PickupMarker />}
-                      </Marker>
-                    )}
+                      }}
+                      onDragEnd={e => {
+                        console.log('first', e.nativeEvent);
+                        setMyLocation(e.nativeEvent.coordinate);
+                        // setMarkerDragging(false);
+                      }}
+                      image={require('../components/common/location.png')}
+                      >
+                      {path.length > 0 && <PickupMarker />}
+                    </Marker>
 
                     {_isNumber(destLocation.latitude) && destAddress && (
                       <>
@@ -2632,5 +2670,5 @@ const styles = StyleSheet.create({
     height: hp(100),
     position: 'relative',
   },
-});
+  });
 export default MapScreen;
