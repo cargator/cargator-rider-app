@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   BackHandler,
+  Image,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -19,7 +20,7 @@ import {
 } from 'react-native-responsive-screen';
 import Geolocation from 'react-native-geolocation-service';
 import AutocompleteInput from 'react-native-autocomplete-input';
-import MapView, {Marker, Polyline} from 'react-native-maps';
+import MapView, {Circle, Marker, Polyline} from 'react-native-maps';
 import {getSocketInstance, socketDisconnect} from '../utils/socket';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -145,6 +146,7 @@ const MapScreen = (props: any) => {
   const [selection_2, setSelection_2] = useState<any>({start: 0});
   const [driverArrivalTime, setDriverArrivalTime] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState(false);
+  const [showMarker, setShowMarker] = useState(false);
   // const [isScheduleRide, setIsScheduleRide] = useState<boolean>(false);
   // const [scheduledRideDetails, setScheduledRideDetails] = useState<any>([]);
   // const paymentCompleted = useSelector((store: any) => store.paymentCompleted);
@@ -1453,9 +1455,12 @@ const MapScreen = (props: any) => {
               </View>
 
               {_isNumber(mylocation.latitude) && (
-                <View style={styles.parentMapViewStyles}>
+                <View
+                  style={[styles.parentMapViewStyles, {position: 'relative'}]}>
                   <MapView
                     ref={mapRef}
+                    onPress={() => {setShowMarker(true)}}
+                    onLongPress={() => {setShowMarker(false)}}
                     // loadingEnabled={true}
                     showsUserLocation={loading ? false : true}
                     onMapReady={() => {
@@ -1484,34 +1489,46 @@ const MapScreen = (props: any) => {
                       longitude: mylocation.longitude,
                       latitudeDelta: 0.0122,
                       longitudeDelta: 0.0121,
-                    }}
-                  >
-                    <Marker
+                    }}>
+                      {!showMarker && (<Marker
                       identifier="pickup"
                       draggable={true}
                       // pinColor="blue"
                       coordinate={{
                         // latitude: mylocation.latitude,
-                          // longitude: mylocation.longitude,
-                          // latitudeDelta: 0.0622,
-                          // longitudeDelta: 0.0121,
+                        // longitude: mylocation.longitude,
+                        // latitudeDelta: 0.0622,
+                        // longitudeDelta: 0.0121,
 
-                          latitude: path[0]?.latitude
-                            ? path[0]?.latitude
-                            : mylocation.latitude,
-                          longitude: path[0]?.longitude
-                            ? path[0].longitude
-                            : mylocation.longitude,
+                        latitude: path[0]?.latitude
+                          ? path[0]?.latitude
+                          : mylocation.latitude,
+                        longitude: path[0]?.longitude
+                          ? path[0].longitude
+                          : mylocation.longitude,
                       }}
                       onDragEnd={e => {
                         console.log('first', e.nativeEvent);
                         setMyLocation(e.nativeEvent.coordinate);
                         // setMarkerDragging(false);
                       }}
-                      image={require('../components/common/location.png')}
-                      >
+                      image={require('../components/common/location.png')}>
                       {path.length > 0 && <PickupMarker />}
-                    </Marker>
+                    </Marker>)}
+                    {/* <Circle
+                      center={mylocation}
+                      radius={50}
+                      strokeWidth={1}
+                      strokeColor={'rgba(0,0,0,0.3)'}
+                      fillColor={'rgba(0,0,0,0.1)'}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                      }}
+                    /> */}
 
                     {_isNumber(destLocation.latitude) && destAddress && (
                       <>
@@ -1558,6 +1575,7 @@ const MapScreen = (props: any) => {
                         );
                       })}
                   </MapView>
+                  <Image style={styles.centeredIcon} resizeMode='contain' source={require('../components/common/location.png')}/>
                 </View>
               )}
 
@@ -2670,5 +2688,14 @@ const styles = StyleSheet.create({
     height: hp(100),
     position: 'relative',
   },
-  });
+  centeredIcon: {
+    width: wp(14),
+    height: hp(14),
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: hp(-10.7), //half the height for vertical alignment
+    marginLeft: wp(-7.2), //half the width for horizontal alignment
+  }
+});
 export default MapScreen;
