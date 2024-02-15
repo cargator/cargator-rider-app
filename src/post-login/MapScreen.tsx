@@ -475,15 +475,16 @@ const MapScreen = (props: any) => {
   const getAddress = async (location: {latitude: any; longitude: any}) => {
     try {
       if (
-        !_isNumber(location.latitude) ||
-        location.latitude === 0 ||
-        location.longitude === 0 ||
-        !_isNumber(location.longitude) ||
+      !_isNumber(location.latitude) ||
+      location.latitude === 0 ||
+      location.longitude === 0 ||
+      !_isNumber(location.longitude) ||
         myAddress
       ) {
-        return;
+      return;
       }
       const response: any = await getAddressFromCoords(location);
+      console.log("resAddress",response.data)
       setMyAddress(response?.data?.address);
     } catch (error: any) {
       console.log('error in getAddress', error);
@@ -990,6 +991,7 @@ const MapScreen = (props: any) => {
       setLoading(true);
     } else {
       setLoading(false);
+      console.log("hiiiii")
       getAddress(mylocation);
     }
 
@@ -1094,9 +1096,9 @@ const MapScreen = (props: any) => {
     console.log({userData});
   }, []);
 
-  useEffect(() => {
-    console.log('myLocation', mylocation);
-  }, [mylocation]);
+  // useEffect(() => {
+  //   console.log('myLocation', mylocation);
+  // }, [mylocation]);
 
   return (
     <View
@@ -1459,7 +1461,7 @@ const MapScreen = (props: any) => {
                   style={[styles.parentMapViewStyles, {position: 'relative'}]}>
                   <MapView
                     ref={mapRef}
-                    onPress={() => {setShowMarker(true)}}
+                    // onPress={() => {setShowMarker(true)}}
                     onLongPress={() => {setShowMarker(false)}}
                     // loadingEnabled={true}
                     showsUserLocation={loading ? false : true}
@@ -1490,7 +1492,7 @@ const MapScreen = (props: any) => {
                       latitudeDelta: 0.0122,
                       longitudeDelta: 0.0121,
                     }}>
-                      {!showMarker && (<Marker
+                      {showMarker && (<Marker
                       identifier="pickup"
                       draggable={true}
                       // pinColor="blue"

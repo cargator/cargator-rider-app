@@ -7,6 +7,7 @@ export const suggestedPlaces = (text: string) => {
       );
 }
 export const getAddressFromCoords = (location: { latitude: any; longitude: any; }) => {
+  console.log("location11111",location)
     return customAxios.post(
         `/get-address-from-coordinates`,
         location,
