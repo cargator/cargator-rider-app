@@ -1360,7 +1360,7 @@ const MapScreen = (props: any) => {
                         style={{
                           display: 'flex',
                           flexDirection: 'row',
-                          fontSize: wp(3.6),
+                          fontSize: wp(3.6),                     
                         }}>
                         <Text
                           style={{

@@ -22,13 +22,17 @@ import PhoneIcon from '../components/svg/PhoneIcon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { styles as ExternalStyles, themeColor } from '../styles/styles';
 import { login } from '../services/userservices';
-const countryCode = '+91';
 
-const LoginScreen = ({navigation}: any) => {
+const initialCountryCode = '+91'; // Default country code
+const countryCodeList = ['+91']; // List of country codes
+
+const LoginScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const scrollViewRef = useRef<any>();
   const [isSendOtpClicked, setIsSendOtpClicked] = useState(false);
   const [isTextInputSelected, setIsTextInputSelected] = useState(false);
+  const [showCountryCodeDropdown, setShowCountryCodeDropdown] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState(initialCountryCode);
   const refTextInput: any = React.useRef(null);
 
   const handlePhoneAndCodeView = () => {
@@ -38,6 +42,17 @@ const LoginScreen = ({navigation}: any) => {
       refTextInput.current?.focus();
     }
     setIsTextInputSelected(!isTextInputSelected);
+    setShowCountryCodeDropdown(false);
+  };
+
+
+  const toggleCountryCodeDropdown = () => {
+    setShowCountryCodeDropdown(!showCountryCodeDropdown);
+  };
+
+  const handleCountryCodeSelection = (code:any) => {
+    setSelectedCountryCode(code);
+    toggleCountryCodeDropdown();
   };
 
   const loginSchema = Yup.object().shape({
@@ -82,10 +97,10 @@ const LoginScreen = ({navigation}: any) => {
       automaticallyAdjustKeyboardInsets={true}
       ref={scrollViewRef}
       onContentSizeChange={() =>
-        scrollViewRef.current.scrollToEnd({animated: true})
+        scrollViewRef.current.scrollToEnd({ animated: true })
       }
       keyboardShouldPersistTaps="always"
-      contentContainerStyle={{flexGrow: 1}}>
+      contentContainerStyle={{ flexGrow: 1 }}>
       <ImageBackground
         style={{
           // height: Platform.OS == 'android' ? hp(100) : null,
@@ -117,18 +132,38 @@ const LoginScreen = ({navigation}: any) => {
                 }}>
                 <View>
                   <Text style={styles.text}>Enter your mobile number</Text>
-                  <Text style={[styles.textContinue, {alignSelf: 'flex-start'}]}>
+                  <Text style={[styles.textContinue, { alignSelf: 'flex-start' }]}>
                     to continue
                   </Text>
                 </View>
+                <View style={styles.countryCodeView}>
+                  <TouchableOpacity
+                    onPress={toggleCountryCodeDropdown}>
+                    {/* <PhoneIcon /> */}
+                    <Text style={styles.mobileInputCountryCode}>
+                      {selectedCountryCode}
+                    </Text>
+                    <Text style={{ position: 'absolute', right: -17, bottom: -1, color: 'grey', fontSize: 22 }}>▼</Text>
+                  </TouchableOpacity>
+                </View>
+                {showCountryCodeDropdown && (
+                  <View style={styles.countryCodeDropdown}>
+                    {countryCodeList.map((code, index) => (
+                      <TouchableOpacity key={index} onPress={() => handleCountryCodeSelection(code)}>
+                        <Text style={code === selectedCountryCode ? { fontWeight: 'bold' } : {}}>{code}</Text>
+                      </TouchableOpacity>
+                    ))}
+
+                  </View>
+                )}
 
                 <View style={styles.textInputView}>
-                  <View
+                  {/* <View
                     style={styles.phoneIconView}
                     onTouchStart={handlePhoneAndCodeView}>
                     <PhoneIcon />
                     <Text style={styles.code}>{countryCode}</Text>
-                  </View>
+                  </View> */}
 
                   {errors.mobileNumber && touched.mobileNumber && (
                     <Text style={styles.errorText}>
@@ -144,6 +179,7 @@ const LoginScreen = ({navigation}: any) => {
                     onBlur={handleBlur('mobileNumber')}
                     value={values.mobileNumber}
                     maxLength={10}
+                    onTouchStart={handlePhoneAndCodeView}
                   />
                 </View>
 
@@ -178,7 +214,7 @@ const styles = StyleSheet.create({
     padding: wp(2),
     backgroundColor: 'white',
     fontSize: wp(4.5),
-    paddingLeft: wp(17),
+    paddingLeft: wp(5),
     flex: 1,
   },
   button: {
@@ -207,20 +243,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: hp(1),
+    width: wp(67),
+    marginLeft: wp(20)
   },
-  phoneIconView: {
-    zIndex: 1,
-    flexDirection: 'row',
-    position: 'absolute',
-    left: wp(2),
-    alignItems: 'center',
-  },
-  code: {
-    fontFamily: 'RobotoMono-Regular',
-    fontSize: wp(4.5),
-    marginLeft: wp(0.5),
-    color: '#747688',
-  },
+  // phoneIconView: {
+  //   zIndex: 1,
+  //   flexDirection: 'row',
+  //   position: 'absolute',
+  //   left: wp(2),
+  //   alignItems: 'center',
+  // },
+  // code: {
+  //   fontFamily: 'RobotoMono-Regular',
+  //   fontSize: wp(4.5),
+  //   marginLeft: wp(0.5),
+  //   color: '#747688',
+  // },
   errorText: {
     fontFamily: 'RobotoMono-Regular',
     fontSize: hp(2),
@@ -228,7 +266,41 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: hp(-2.5),
   },
-  buttonContainer: {justifyContent: 'center', marginTop: hp(3)},
+  buttonContainer: { justifyContent: 'center', marginTop: hp(3) },
+  countryCodeDropdown: {
+    position: 'absolute',
+    bottom: hp(17),
+    width:wp(13),
+    left: wp(4),
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    textColor: "grey"
+  },
+  countryCodeView: {
+    height: hp(5.5),
+    width: wp(15),
+    zIndex: 1,
+    paddingTop: hp(0.3),
+    flexDirection: 'row',
+    position: 'absolute',
+    left: wp(3),
+    top: hp(9.5),
+    alignItems: 'center',
+    borderWidth: 1,
+    // borderRadius: 3,
+    // backgroundColor: 'F2F3F7',
+    borderColor: 'grey',
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+  },
+  mobileInputCountryCode: {
+    color: 'black',
+    fontSize: wp(5),
+    marginLeft: wp(1),
+  },
 });
 
 export default LoginScreen;

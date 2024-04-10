@@ -3,8 +3,8 @@ import store from '../redux/redux';
 
 const customAxios = axios.create({
   // baseURL: `https://cab-e-socket-service-dev-fa3ocuxbpq-el.a.run.app`,
-  // baseURL: `https://648d-182-48-212-31.ngrok-free.app`,
-  baseURL: `https://api.cargator.org`,
+  baseURL: `https://ab07-182-48-211-5.ngrok-free.app`,
+  // baseURL: `https://api.cargator.org`,
 });
 
 customAxios.interceptors.request.use(
