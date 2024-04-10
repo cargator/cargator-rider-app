@@ -216,6 +216,8 @@ const styles = StyleSheet.create({
     fontSize: wp(4.5),
     paddingLeft: wp(5),
     flex: 1,
+    borderColor: 'grey',
+    borderWidth: 1,
   },
   button: {
     width: wp(90),
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: hp(1),
     width: wp(67),
-    marginLeft: wp(20)
+    marginLeft: wp(20),
   },
   // phoneIconView: {
   //   zIndex: 1,
