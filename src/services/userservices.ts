@@ -16,3 +16,7 @@ export const verifyOtp = (data: { otp: any; type: string; mobileNumber: any; }) 
 export const getUserInfo =async (userId: any) => {
     return customAxios.get(`/getRiderById/${userId}`);
 }
+
+export const getcountryCodeAPI = () =>{
+    return customAxios.get('/getCountryCodeMobile');
+} 
