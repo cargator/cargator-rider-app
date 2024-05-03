@@ -40,6 +40,7 @@ import Car from '../components/svg/Car';
 import Toast from 'react-native-toast-message';
 import PickupIcon from '../components/svg/PickupIcon';
 import DropIcon from '../components/svg/DropIcon';
+import DropIcon2 from '../components/svg/DropIcon2'
 // import HrLine from '../components/svg/hrLine';
 import ArrowRight from '../components/svg/ArrowRight';
 import SmallCarIcon from '../components/svg/SmallCarIcon';
@@ -441,7 +442,7 @@ const MapScreen = (props: any) => {
 
   const getAddressFromAutoComplete = async (text: string) => {
     try {
-      if (text?.length >= 4) {
+      if (text?.length >= 3) {
         const response: any = await suggestedPlaces(text);
         return response?.data?.predictions || [];
         // return dummy_destAutoComplete;
@@ -1417,6 +1418,10 @@ const MapScreen = (props: any) => {
                           },
                         ],
                         renderItem: ({item}: any) => (
+                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <View style={{ marginLeft: 10 }}>
+                              <DropIcon2 />
+                          </View>
                           <Text
                             onPress={() => {
                               setIsProfileModal(false);
@@ -1431,8 +1436,9 @@ const MapScreen = (props: any) => {
                               Keyboard.dismiss();
                             }}
                             style={styles.autoCompleteText}>
-                            {item?.description || item?.placeAddress}
+                           {item?.description || item?.placeAddress}
                           </Text>
+                          </View>
                         ),
                         keyboardShouldPersistTaps: 'always',
                       }}
@@ -2451,7 +2457,12 @@ const styles = StyleSheet.create({
   autoCompleteText: {
     fontFamily: 'Roboto Mono',
     color: '#000000',
-    margin: wp(2),
+    margin: wp(1),
+    marginLeft:wp(4),
+    width:wp(87),
+  },
+  DroplistIcon: {
+    marginTop:wp(0),
   },
   clearTextView: {
     position: 'absolute',
@@ -2490,7 +2501,7 @@ const styles = StyleSheet.create({
     // width:wp(88),
   },
   autoCompleteListStyles: {
-    width: wp(80),
+    width: wp(100),
     alignSelf: 'center',
     borderRadius: 20,
   },
