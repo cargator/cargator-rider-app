@@ -442,7 +442,7 @@ const MapScreen = (props: any) => {
 
   const getAddressFromAutoComplete = async (text: string) => {
     try {
-      if (text?.length >= 3) {
+      if (text?.length >= 4) {
         const response: any = await suggestedPlaces(text);
         return response?.data?.predictions || [];
         // return dummy_destAutoComplete;
@@ -452,7 +452,7 @@ const MapScreen = (props: any) => {
       console.log('error in getAddressFromAutoComplete', error);
     }
   };
-
+''
   const pickupTextDebouncer = useCallback(
     _debounce(pickupChangeTextDebounced, debounceTime || 0),
     [],
@@ -1678,20 +1678,6 @@ const MapScreen = (props: any) => {
                   <Text style={styles.holdOntext}>
                     Kindly hold on for a second
                   </Text>
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleCancelRide();
-                    }}
-                    style={styles.cancelButton}>
-                    <Text
-                      style={{
-                        fontFamily: 'Roboto Mono',
-                        fontWeight: '800',
-                        color: '#EB5757',
-                      }}>
-                      Cancel ride
-                    </Text>
-                  </TouchableOpacity>
                   <View
                     style={{
                       marginTop: hp(10),
@@ -1743,6 +1729,20 @@ const MapScreen = (props: any) => {
                       </>
                     )}
                   </View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleCancelRide();
+                    }}
+                    style={styles.cancelButton}>
+                    <Text
+                      style={{
+                        fontFamily: 'Roboto Mono',
+                        fontWeight: '800',
+                        color: '#EB5757',
+                      }}>
+                      Cancel Ride
+                    </Text>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
@@ -2193,12 +2193,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 10,
+    backgroundColor: '#fff',
+    paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 5,
-    width: '45%',
+    borderRadius: 10,
+    borderColor:'#EB5757',
+    borderWidth:wp(0.2),
+    width: wp(80),
     alignItems: 'center',
+    alignSelf:'center',
+    justifyContent:'center',
+    marginTop:hp(18)
   },
 
   buttonText: {
