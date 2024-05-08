@@ -127,7 +127,7 @@ const LoginOtpScreen = ({route}: any) => {
         {/* <View style={ExternalStyles.parentView}> */}
         <View style={ExternalStyles.preLoginCard}>
           <View>
-            <Text style={styles.greyText}>Enter the 6 digit code sent to</Text>
+            <Text style={styles.greyText}>Enter the 4 digit code sent to</Text>
             <Text style={styles.text}>
               {/* {route.params.formattedMobileNumber} */}
               +91 {route.params.mobileNumber}
