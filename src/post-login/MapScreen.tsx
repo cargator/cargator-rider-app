@@ -59,6 +59,7 @@ import {Badge, Button} from 'react-native-elements';
 import ChatComponent from './ChatComponent';
 import DropMarker from '../components/svg/DropMarker';
 import PickupMarker from '../components/svg/PickupMarker';
+import BackArrow2 from '../components/svg/BackArrow2';
 import * as geolib from 'geolib';
 import {
   isEmpty as _isEmpty,
@@ -148,6 +149,7 @@ const MapScreen = (props: any) => {
   const [driverArrivalTime, setDriverArrivalTime] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState(false);
   const [showMarker, setShowMarker] = useState(false);
+  const [uber, setUber] = useState(false);
   // const [isScheduleRide, setIsScheduleRide] = useState<boolean>(false);
   // const [scheduledRideDetails, setScheduledRideDetails] = useState<any>([]);
   // const paymentCompleted = useSelector((store: any) => store.paymentCompleted);
@@ -992,7 +994,7 @@ const MapScreen = (props: any) => {
       setLoading(true);
     } else {
       setLoading(false);
-      console.log("hiiiii")
+      // console.log("hiiiii")
       getAddress(mylocation);
     }
 
@@ -1236,7 +1238,15 @@ const MapScreen = (props: any) => {
           )} */}
 
           {navigationStep == 0 && !deleteModal && (
+            
             <>
+            { uber === true &&
+              <View style={{flex:1, backgroundColor:'#fff5ee', zIndex:1, position:'absolute', height:hp(100), width:wp(100), top:hp(0)}}>
+              <Text style={{color:'black', fontSize:22, fontFamily: 'Roboto Mono', fontWeight:600, alignSelf:'center', marginTop:hp(2)}}>Plan your ride</Text>
+              </View>
+            }
+            
+            <View>
               <View style={styles.autoCompleteView1}>
                 <View
                   style={[
@@ -1405,6 +1415,7 @@ const MapScreen = (props: any) => {
                       onChangeText={text => {
                         setIsProfileModal(false);
                         setDestAddress(text);
+                        {text.length >=4 ? setUber(true): setUber(false)}
                         destTextDebouncer(text);
                       }}
                       onSubmitEditing={() => {}}
@@ -1413,7 +1424,7 @@ const MapScreen = (props: any) => {
                         style: [
                           styles.autoCompleteListStyles,
                           {
-                            marginTop: hp(3),
+                            marginTop: hp(2),
                             display: destAddress ? 'flex' : 'none',
                           },
                         ],
@@ -1519,6 +1530,7 @@ const MapScreen = (props: any) => {
                         console.log('first', e.nativeEvent);
                         setMyLocation(e.nativeEvent.coordinate);
                         // setMarkerDragging(false);
+                        // getAddress(e.nativeEvent.coordinate)
                       }}
                       image={require('../components/common/location.png')}>
                       {path.length > 0 && <PickupMarker />}
@@ -1609,6 +1621,7 @@ const MapScreen = (props: any) => {
                   </TouchableOpacity>
                 </View>
               )}
+              </View>
             </>
           )}
 
@@ -2397,18 +2410,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   autoCompleteView1: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff5ee',
     zIndex: 110,
     height: hp(16),
-    width: wp(88),
+    width: wp(100),
     position: 'absolute',
     alignSelf: 'center',
-    // borderRadius: 20,
+    borderColor: 'black',
+    borderWidth:2,
     display: 'flex',
     alignItems: 'center',
     // marginTop: hp(1),
-    top: hp(7),
-    borderRadius: wp(5),
+    top: hp(2),
+    borderRadius: wp(3),
   },
   profileText: {fontFamily: 'Roboto Mono', color: '#ffffff', fontSize: wp(5)},
   horixontalLine: {
@@ -2419,12 +2433,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   verticalLine: {
-    height: hp(4.4),
+    height: hp(5.6),
     width: wp(0.5),
     alignSelf: 'flex-start',
     borderStyle: 'dashed',
     borderWidth: 1,
     borderRadius: 1,
+    top: hp(0),
+    left:wp(5.7)
   },
   myAddressInput: {
     backgroundColor: 'transparent',
@@ -2432,7 +2448,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
+    // top: 25,
     // top: hp(7),
     zIndex: 11,
     display: 'flex',
@@ -2492,7 +2508,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
+    // top: 20,
     zIndex: 11,
     display: 'flex',
     flexDirection: 'row',
@@ -2508,7 +2524,8 @@ const styles = StyleSheet.create({
   autoCompleteListStyles: {
     width: wp(100),
     alignSelf: 'center',
-    borderRadius: 20,
+    // borderRadius: 20,
+    backgroundColor:'#fff5ee'
   },
   doneCardView: {
     height: hp(17),
@@ -2517,7 +2534,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#ffffff',
     zIndex: 110,
-    bottom: 0,
+    bottom: hp(7),
     // borderRadius: wp(5),
     paddingLeft: wp(5),
     paddingRight: wp(5),
