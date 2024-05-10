@@ -97,7 +97,7 @@ const MapScreen = (props: any) => {
   const userData = useSelector((store: any) => store.userData);
   const debounceTime = useSelector((store: any) => store.utils?.debounceTime);
   const preBookRideTime = useSelector(
-    (store: any) => store.utils.preBookRideTime,
+    (store: any) => store.utils?.preBookRideTime,
   );
   const mapRef = useRef<any>(null);
   const mapRef1 = useRef<any>(null);
