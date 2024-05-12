@@ -1,4 +1,4 @@
-package com.codeb.cargatorrider;
+package com.codeb.cargatordeltarider;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

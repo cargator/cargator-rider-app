@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.codeb.cargatorrider"
+    namespace "com.codeb.cargatordeltarider"
     defaultConfig {
-        applicationId "com.codeb.cargatorrider"
+        applicationId "com.codeb.cargatordeltarider"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 28
