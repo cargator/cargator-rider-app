@@ -7,8 +7,8 @@ let socketDetails = {status: 'disconnected'};
 function socketConnection(token) {
   return new Promise((resolve, reject) => {
     socket = io.connect(
-      `https://cg-delta-mtepodzz4a-as.a.run.app?token=${token}`,
-      // `https://63be-182-48-208-72.ngrok-free.app?token=${token}`,
+      `https://api-delta.cargator.org/?token=${token}`,
+      // `https://c9a6-182-48-209-57.ngrok-free.app?token=${token}`,
       {transports: ['websocket']},
     );
 

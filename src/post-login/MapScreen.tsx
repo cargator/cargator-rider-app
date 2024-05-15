@@ -451,7 +451,7 @@ const MapScreen = (props: any) => {
       }
       return [];
     } catch (error: any) {
-      console.log('error in getAddressFromAutoComplete', error);
+      console.log('error in getAddressFromAutoComplete 1', error);
     }
   };
 ''
@@ -1459,6 +1459,7 @@ const MapScreen = (props: any) => {
                       <TouchableOpacity
                         onPress={() => {
                           setIsProfileModal(false);
+                          setUber(false);
                           setDestAddress('');
                           setPath([]);
                           setDistance({text: '', value: ''});
