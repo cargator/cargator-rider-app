@@ -112,7 +112,7 @@ const MapScreen = (props: any) => {
     longitude: 0,
   });
 
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const calculateDistance = (lat1:any, lon1:any, lat2:any, lon2:any) => {
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert degrees to radians
     const dLon = (lon2 - lon1) * (Math.PI / 180); // Convert degrees to radians
@@ -167,6 +167,7 @@ const MapScreen = (props: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [showMarker, setShowMarker] = useState(false);
   const [uber, setUber] = useState(false);
+  const [dragMap, setDragMap] = useState<boolean>(true)
   // const [isScheduleRide, setIsScheduleRide] = useState<boolean>(false);
   // const [scheduledRideDetails, setScheduledRideDetails] = useState<any>([]);
   // const paymentCompleted = useSelector((store: any) => store.paymentCompleted);
@@ -175,23 +176,6 @@ const MapScreen = (props: any) => {
     typeof setInterval
   > | null>(null);
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const debouncedFunction = () => {
-
-    console.log("debouncedFunction")
-    // Call your function to get address here
-    // getAddress(mapRegion.latitude, mapRegion.longitude);
-  }; // Adjust the debounce delay as needed
-
-
-  // const handleRegionChange = () => {
-  //   setIsDragging(true);
-  // };
-
-  const handleRegionChangeComplete = (region:any) => {
-      debouncedFunction();
-  };
 
   const distanceMoreThan80MetersFromNearbyDrivers = (newNearbyDrivers: any) => {
     // console.log(`distanceMoreThan80MetersFromNearbyDrivers called !`);
@@ -262,12 +246,14 @@ const MapScreen = (props: any) => {
   const handleFocus_1 = () => {
     setIsProfileModal(false);
     setSelection_1(null);
+    setDragMap(true);
   };
   const handleBlur_1 = () => {
     setSelection_1({start: 0});
   };
 
   const handleFocus_2 = () => {
+    setDragMap(false);
     setIsProfileModal(false);
     setSelection_2(null);
   };
@@ -519,11 +505,9 @@ const MapScreen = (props: any) => {
       if (
       !_isNumber(location.latitude) ||
       location.latitude === 0 ||
-      location.longitude === 0 ||
-      !_isNumber(location.longitude) 
+      location.longitude === 0 
       
       ) {
-        console.log("hello i found the culprit===>")
       return;
       }
       const response: any = await getAddressFromCoords(location);
@@ -1034,7 +1018,6 @@ const MapScreen = (props: any) => {
       setLoading(true);
     } else {
       setLoading(false);
-      console.log("useEffect ==>",{mylocation, destLocation, nearbyDrivers, driverLocation})
       getAddress(mylocation);
     }
 
@@ -1078,10 +1061,10 @@ const MapScreen = (props: any) => {
       setTimeout(() => {
         mapRef1.current?.fitToSuppliedMarkers(markerIDs, {
           edgePadding: {
-            top: hp(20),
-            right: hp(20),
-            bottom: hp(20),
-            left: hp(20),
+            top: hp(100),
+            right: hp(100),
+            bottom: hp(100),
+            left: hp(100),
           },
           animated: true,
         });
@@ -1095,13 +1078,6 @@ const MapScreen = (props: any) => {
     }
   }, [paymentError]);
 
-  useEffect(() => {
-    return () => {
-      if (intervalState) {
-        clearInterval(intervalState);
-      }
-    };
-  }, [intervalState]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -1327,6 +1303,10 @@ const MapScreen = (props: any) => {
                           },
                         ],
                         renderItem: ({item}: any) => (
+                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <View style={{ marginLeft: 10 }}>
+                              <DropIcon2 />
+                          </View>
                           <Text
                             onPress={() => {
                               setIsProfileModal(false);
@@ -1343,9 +1323,11 @@ const MapScreen = (props: any) => {
                             style={styles.autoCompleteText}>
                             {item?.description || item?.placeAddress}
                           </Text>
+                          </View>
                         ),
                         keyboardShouldPersistTaps: 'always',
                       }}
+                      
                       // listContainerStyle={{zIndex: 1, position: 'absolute'}}
                     />
 
@@ -1464,7 +1446,7 @@ const MapScreen = (props: any) => {
                         style: [
                           styles.autoCompleteListStyles,
                           {
-                            marginTop: hp(2),
+                            marginTop: hp(4),
                             display: destAddress ? 'flex' : 'none',
                           },
                         ],
@@ -1544,7 +1526,9 @@ const MapScreen = (props: any) => {
                     //   console.log("jjjr")
                     // }}
                     // onRegionChange={handleRegionChange}
+
                     onRegionChangeComplete={(region)=>{
+                      if(dragMap === true){
                       setMyLocation((prevLocation:any) => {
                         const distance = calculateDistance(
                           prevLocation.latitude,
@@ -1558,6 +1542,7 @@ const MapScreen = (props: any) => {
                           return prevLocation; // Keep the previous location unchanged
                         }
                       });
+                    }
                     }}
 
                   
@@ -1600,12 +1585,6 @@ const MapScreen = (props: any) => {
                         // setMyLocation(e.nativeEvent.coordinate);n
                         // setMarkerDragging(false);
                         // getAddress(e.nativeEvent.coordinate)
-                      }}
-                      onDrag={()=>{
-                        console.log("Drag...")
-                      }}
-                      onLayout={()=>{
-                        console.log("onLaout")
                       }}
                       image={require('../components/common/location.png')}>
                       {path.length > 0 && <PickupMarker />}
@@ -1921,7 +1900,9 @@ const MapScreen = (props: any) => {
                             longitude: rideDetails.pickUpLocation[1],
                             latitudeDelta: 0.0122,
                             longitudeDelta: 0.0121,
-                          }}>
+                          }}
+                            // mapPadding={{top: 550, right: 50, left: 50, bottom: 0}}
+                          >
                           {_isNumber(rideDetails.pickUpLocation[0]) &&
                             !isRideStarted && (
                               <Marker
@@ -2600,7 +2581,8 @@ const styles = StyleSheet.create({
     width: wp(100),
     alignSelf: 'center',
     // borderRadius: 20,
-    backgroundColor:'#fff5ee'
+    backgroundColor:'#fff5ee',
+    bottom:hp(2.2)
   },
   doneCardView: {
     height: hp(17),
