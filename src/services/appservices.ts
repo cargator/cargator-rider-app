@@ -3,7 +3,7 @@ import store from '../redux/redux';
 
 const customAxios = axios.create({
   // baseURL: `https://cab-e-socket-service-dev-fa3ocuxbpq-el.a.run.app`,
-  // baseURL: `http://192.168.1.57:3002`,
+  // baseURL: `http://192.168.1.57:3001`,
   baseURL: `https://api-delta.cargator.org/`,
 });
 

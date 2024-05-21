@@ -8,7 +8,7 @@ function socketConnection(token) {
   return new Promise((resolve, reject) => {
     socket = io.connect(
       `https://api-delta.cargator.org/?token=${token}`,
-      // `http://192.168.1.57:3002?token=${token}`,
+      // `http://192.168.1.57:3001?token=${token}`,
       {transports: ['websocket']},
     );
 

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Text,
   View,
@@ -20,9 +20,9 @@ import {
 } from 'react-native-responsive-screen';
 import Geolocation from 'react-native-geolocation-service';
 import AutocompleteInput from 'react-native-autocomplete-input';
-import MapView, {Circle, Marker, Polyline} from 'react-native-maps';
-import {getSocketInstance, socketDisconnect} from '../utils/socket';
-import {useDispatch, useSelector} from 'react-redux';
+import MapView, { Circle, Marker, Polyline } from 'react-native-maps';
+import { getSocketInstance, socketDisconnect } from '../utils/socket';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   removeRideDetails,
   setGpsPermission,
@@ -54,8 +54,8 @@ import {
   setUtils,
   setOrderId,
 } from '../redux/redux';
-import {GiftedChat} from 'react-native-gifted-chat';
-import {Badge, Button} from 'react-native-elements';
+import { GiftedChat } from 'react-native-gifted-chat';
+import { Badge, Button } from 'react-native-elements';
 import ChatComponent from './ChatComponent';
 import DropMarker from '../components/svg/DropMarker';
 import PickupMarker from '../components/svg/PickupMarker';
@@ -67,21 +67,21 @@ import {
   isNumber as _isNumber,
   isNull as _isNull,
 } from 'lodash';
-import {styles as ExternalStyles, themeColor} from '../styles/styles';
+import { styles as ExternalStyles, themeColor } from '../styles/styles';
 import SidebarIcon from '../components/svg/SidebarIcon';
 import moment from 'moment';
 import {
   cancelPaymentOrder,
   createPaymentOrder,
 } from '../services/paymentservices';
-import {DriverInfo, getRideFare} from '../services/rideservices';
+import { DriverInfo, getRideFare } from '../services/rideservices';
 import {
   DirectionsApi,
   suggestedPlaces,
   getAddressFromCoords,
   getCoordsFromAddress,
 } from '../services/mapservices';
-import {getUtils} from '../services/userservices';
+import { getUtils } from '../services/userservices';
 import customAxios from '../services/appservices';
 // import * as _ from 'lodash';
 // import { dummy_Path, dummy_distance, dummy_duration, dummy_nearbyDrivers } from './dummyData';
@@ -112,22 +112,22 @@ const MapScreen = (props: any) => {
     longitude: 0,
   });
 
-  const calculateDistance = (lat1:any, lon1:any, lat2:any, lon2:any) => {
+  const calculateDistance = (lat1: any, lon1: any, lat2: any, lon2: any) => {
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert degrees to radians
     const dLon = (lon2 - lon1) * (Math.PI / 180); // Convert degrees to radians
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distance in kilometers
     const meters = distance * 1000; // Convert distance to meters
     return meters;
   };
-  
+
   const [destLocation, setDestLocation] = useState<any>({
     latitude: '',
     longitude: '',
@@ -161,8 +161,8 @@ const MapScreen = (props: any) => {
   const [unseenMessagesCount, setUnseenMessagesCount] = useState<number>(0);
   const [driverDetails, setDriverDetails] = useState<any>({});
   const [isProfileModal, setIsProfileModal] = useState<boolean>(false);
-  const [selection_1, setSelection_1] = useState<any>({start: 0});
-  const [selection_2, setSelection_2] = useState<any>({start: 0});
+  const [selection_1, setSelection_1] = useState<any>({ start: 0 });
+  const [selection_2, setSelection_2] = useState<any>({ start: 0 });
   const [driverArrivalTime, setDriverArrivalTime] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState(false);
   const [showMarker, setShowMarker] = useState(false);
@@ -249,7 +249,7 @@ const MapScreen = (props: any) => {
     setDragMap(true);
   };
   const handleBlur_1 = () => {
-    setSelection_1({start: 0});
+    setSelection_1({ start: 0 });
   };
 
   const handleFocus_2 = () => {
@@ -258,7 +258,7 @@ const MapScreen = (props: any) => {
     setSelection_2(null);
   };
   const handleBlur_2 = () => {
-    setSelection_2({start: 0});
+    setSelection_2({ start: 0 });
   };
 
   const getNearbyDrivers = () => {
@@ -343,9 +343,9 @@ const MapScreen = (props: any) => {
     getAddress(mylocation);
   };
 
-  useEffect(()=>{
-    console.log("set my location ===>",mylocation)
-  },[mylocation])
+  useEffect(() => {
+    console.log("set my location ===>", mylocation)
+  }, [mylocation])
   const handleChangePaymentMode = async () => {
     console.log(`handleChangePaymentMode called !`);
     socketInstance?.emit('change-payment-mode', {
@@ -398,7 +398,7 @@ const MapScreen = (props: any) => {
           contact: userData.mobileNumber,
           name: 'Razorpay Software',
         },
-        theme: {color: themeColor},
+        theme: { color: themeColor },
       };
 
       const openRazorPay = await RazorpayCheckout.open(options);
@@ -458,7 +458,7 @@ const MapScreen = (props: any) => {
 
   const handleFare = async () => {
     try {
-      const data = {distance: distance.value};
+      const data = { distance: distance.value };
       const resp = await getRideFare(data);
       setFare(resp.data.estimatedFare);
       isInputFieldFilled();
@@ -470,7 +470,9 @@ const MapScreen = (props: any) => {
   const getAddressFromAutoComplete = async (text: string) => {
     try {
       if (text?.length >= 4) {
+        setLoading(true)
         const response: any = await suggestedPlaces(text);
+        setLoading(false)
         return response?.data?.predictions || [];
         // return dummy_destAutoComplete;
       }
@@ -479,7 +481,7 @@ const MapScreen = (props: any) => {
       console.log('error in getAddressFromAutoComplete 1', error);
     }
   };
-''
+  ''
   const pickupTextDebouncer = useCallback(
     _debounce(pickupChangeTextDebounced, debounceTime || 0),
     [],
@@ -487,7 +489,7 @@ const MapScreen = (props: any) => {
 
   async function pickupChangeTextDebounced(text: string) {
     const results: any = await getAddressFromAutoComplete(text);
-    setpickUpSearchResults(results);
+    setpickUpSearchResults(results.slice(0,7));
   }
 
   const destTextDebouncer = useCallback(
@@ -497,21 +499,21 @@ const MapScreen = (props: any) => {
 
   async function destChangeTextDebounced(text: string) {
     const results: any = await getAddressFromAutoComplete(text);
-    setDestSearchResults(results);
+    setDestSearchResults(results.slice(0, 7));
   }
 
-  const getAddress = async (location: {latitude: any; longitude: any}) => {
+  const getAddress = async (location: { latitude: any; longitude: any }) => {
     try {
       if (
-      !_isNumber(location.latitude) ||
-      location.latitude === 0 ||
-      location.longitude === 0 
-      
+        !_isNumber(location.latitude) ||
+        location.latitude === 0 ||
+        location.longitude === 0
+
       ) {
-      return;
+        return;
       }
       const response: any = await getAddressFromCoords(location);
-      console.log("resAddress",response.data)
+      console.log("resAddress", response.data)
       setMyAddress(response?.data?.address);
     } catch (error: any) {
       console.log('error in getAddress', error);
@@ -524,7 +526,7 @@ const MapScreen = (props: any) => {
       // Also watchPosition sometimes fails to retrieve location ...So added getCurrentPosition again below
       Geolocation.getCurrentPosition(
         position => {
-          const {coords} = position;
+          const { coords } = position;
           const message = {
             latitude: coords.latitude,
             longitude: coords.longitude,
@@ -535,11 +537,11 @@ const MapScreen = (props: any) => {
         error => {
           console.log('error in getCurrentPosition', error);
         },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
       );
       Geolocation.watchPosition(
         position => {
-          const {coords} = position;
+          const { coords } = position;
           const message = {
             latitude: coords.latitude,
             longitude: coords.longitude,
@@ -1052,7 +1054,7 @@ const MapScreen = (props: any) => {
         });
       }, 10);
     }
-  }, [ mylocation,destLocation, nearbyDrivers, driverLocation]);
+  }, [mylocation, destLocation, nearbyDrivers, driverLocation]);
 
   const fitRideMapToMarkers = useCallback(() => {
     if (mapRef1.current) {
@@ -1112,7 +1114,7 @@ const MapScreen = (props: any) => {
         console.log('getSocketInstance error :>> ', err);
       }
     })();
-    console.log({userData});
+    console.log({ userData });
   }, []);
 
   // useEffect(() => {
@@ -1128,8 +1130,8 @@ const MapScreen = (props: any) => {
         }
         return false;
       }}
-      style={{flex: 1}}>
-      <View style={[ExternalStyles.parentView, {justifyContent: 'center'}]}>
+      style={{ flex: 1 }}>
+      <View style={[ExternalStyles.parentView, { justifyContent: 'center' }]}>
         {loading &&
           rideDetails?.status != 'pending-payment' &&
           rideDetails?.status != 'payment-failed' && (
@@ -1140,14 +1142,14 @@ const MapScreen = (props: any) => {
         <View
           style={[
             loading &&
-            rideDetails?.status != 'pending-payment' &&
-            rideDetails?.status != 'payment-failed'
+              rideDetails?.status != 'pending-payment' &&
+              rideDetails?.status != 'payment-failed'
               ? styles.loadingOpacity
               : styles.loadingOpacityPendingPayment,
-            {position: 'relative', flex: 1},
+            { position: 'relative', flex: 1 },
           ]}>
           {isChatComponent && (
-            <View style={{alignItems: 'center'}}>
+            <View style={{ alignItems: 'center' }}>
               <ChatComponent
                 setIsChatComponent={setIsChatComponent}
                 messages={messages}
@@ -1217,7 +1219,7 @@ const MapScreen = (props: any) => {
           {!customSpinner && (
             <View style={styles.header}>
               <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <SidebarIcon />
                   {navigationStep == 1 && (
                     <Text
@@ -1235,7 +1237,7 @@ const MapScreen = (props: any) => {
               {/* //? to show logut button */}
               <View style={styles.profileView}>
                 <TouchableOpacity
-                  hitSlop={{left: wp(5), right: wp(5), top: hp(1)}}
+                  hitSlop={{ left: wp(5), right: wp(5), top: hp(1) }}
                   onPress={() => setIsProfileModal(!isProfileModal)}>
                   <Text style={styles.profileText}>
                     {userData.name ? userData.name[0].toUpperCase() : 'R'}
@@ -1254,342 +1256,322 @@ const MapScreen = (props: any) => {
           )} */}
 
           {navigationStep == 0 && !deleteModal && (
-            
+
             <>
-            { uber === true &&
-              <View style={{flex:1, backgroundColor:'#fff5ee', zIndex:1, position:'absolute', height:hp(100), width:wp(100), top:hp(0)}}>
-              <Text style={{color:'black', fontSize:22, fontFamily: 'Roboto Mono', fontWeight:600, alignSelf:'center', marginTop:hp(2)}}>Plan your ride</Text>
-              </View>
-            }
-            
-            <View>
-              <View style={styles.autoCompleteView1}>
-                <View
-                  style={[
-                    styles.inputView,
-                    {
-                      backgroundColor: 'transparent',
-                      width: wp(80),
-                    },
-                  ]}>
-                  <View style={styles.myAddressInput}>
-                    <View style={[styles.iconsView, {left: wp(0.2)}]}>
-                      <PickupIcon />
-                    </View>
+              {uber === true &&
+                <View style={{ flex: 1, backgroundColor: '#fff5ee', zIndex: 1, position: 'absolute', height: hp(100), width: wp(100), top: hp(0) }}>
+                  <Text style={{ color: 'black', fontSize: 22, fontFamily: 'Roboto Mono', fontWeight: 600, alignSelf: 'center', marginTop: hp(2) }}>Plan your ride</Text>
+                </View>
+              }
 
-                    <AutocompleteInput
-                      key={'AutocompleteInput_1'}
-                      onBlur={handleBlur_1}
-                      onFocus={handleFocus_1}
-                      selection={selection_1}
-                      inputContainerStyle={styles.inputContainerStyle}
-                      placeholder="Pickup Location"
-                      style={styles.autoCompleteStyles}
-                      data={pickUpSearchResults ? pickUpSearchResults : []}
-                      value={myAddress}
-                      onChangeText={text => {
-                        setIsProfileModal(false);
-                        setMyAddress(text);
-                        pickupTextDebouncer(text);
-                      }}
-                      onSubmitEditing={() => {}}
-                      flatListProps={{
-                        keyExtractor: (_: any, idx: any) => idx,
-                        style: [
-                          styles.autoCompleteListStyles,
-                          {
-                            marginTop: hp(11),
-                            display: myAddress ? 'flex' : 'none',
-                          },
-                        ],
-                        renderItem: ({item}: any) => (
-                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                          <View style={{ marginLeft: 10 }}>
-                              <DropIcon2 />
-                          </View>
-                          <Text
-                            onPress={() => {
-                              setIsProfileModal(false);
-                              setMyAddress(
-                                item?.description || item?.placeAddress,
-                              );
-                              handleSearch(
-                                item?.description || item?.placeAddress,
-                                true,
-                              );
-                              setpickUpSearchResults([]);
-                              Keyboard.dismiss();
-                            }}
-                            style={styles.autoCompleteText}>
-                            {item?.description || item?.placeAddress}
-                          </Text>
-                          </View>
-                        ),
-                        keyboardShouldPersistTaps: 'always',
-                      }}
-                      
-                      // listContainerStyle={{zIndex: 1, position: 'absolute'}}
-                    />
+              <View>
+                <View style={styles.autoCompleteView1}>
+                  <View
+                    style={[
+                      styles.inputView,
+                      {
+                        backgroundColor: 'transparent',
+                        width: wp(80),
+                      },
+                    ]}>
+                    <View style={styles.myAddressInput}>
+                      <View style={[styles.iconsView, { left: wp(0.2) }]}>
+                        <PickupIcon />
+                      </View>
 
-                    <View style={styles.clearTextView}>
-                      <TouchableOpacity
-                        onPress={() => {
+                      <AutocompleteInput
+                        key={'AutocompleteInput_1'}
+                        onBlur={handleBlur_1}
+                        onFocus={handleFocus_1}
+                        selection={selection_1}
+                        inputContainerStyle={styles.inputContainerStyle}
+                        placeholder="Pickup Location"
+                        style={styles.autoCompleteStyles}
+                        data={pickUpSearchResults ? pickUpSearchResults : []}
+                        value={myAddress}
+                        onChangeText={text => {
                           setIsProfileModal(false);
-                          setMyAddress('');
-                          setPath([]);
-                          setDistance({text: '', value: ''});
-                          setDuration({text: '', value: ''});
-                          setpickUpSearchResults([]);
-                        }}>
-                        <Text style={styles.clearText}>X</Text>
-                      </TouchableOpacity>
+                          setMyAddress(text);
+                          pickupTextDebouncer(text);
+                        }}
+                        onSubmitEditing={() => { }}
+                        flatListProps={{
+                          keyExtractor: (_: any, idx: any) => idx,
+                          style: [
+                            styles.autoCompleteListStyles1,
+                            {
+                              marginTop: hp(9),
+                              display: myAddress ? 'flex' : 'none',
+                            },
+                          ],
+                          renderItem: ({ item }: any) => (
+                            <TouchableOpacity
+                              style={{ flexDirection: 'row', alignItems: 'center' }}
+                              onPress={() => {
+                                setIsProfileModal(false);
+                                setMyAddress(
+                                  item?.description || item?.placeAddress,
+                                );
+                                handleSearch(
+                                  item?.description || item?.placeAddress,
+                                  true,
+                                );
+                                setpickUpSearchResults([]);
+                                Keyboard.dismiss();
+                              }}>
+                              <View style={{ marginLeft: 10 }}>
+                                <DropIcon2 />
+                              </View>
+                              <View style={styles.autoCompleteText}>
+                                <Text style={styles.Title}>{item.placeName}</Text>
+                                <Text>{item?.description || item?.placeAddress}</Text>
+                              </View>
+                            </TouchableOpacity>
+                          ),
+                          keyboardShouldPersistTaps: 'always',
+                        }}
+
+                      // listContainerStyle={{zIndex: 1, position: 'absolute'}}
+                      />
+
+                      <View style={styles.clearTextView}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setIsProfileModal(false);
+                            setMyAddress('');
+                            setPath([]);
+                            setDistance({ text: '', value: '' });
+                            setDuration({ text: '', value: '' });
+                            setpickUpSearchResults([]);
+                          }}>
+                          <Text style={styles.clearText}>X</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
-                </View>
 
-                <View style={styles.horixontalLine} />
-                <View
-                  style={[
-                    styles.verticalLine,
-                    {
-                      zIndex: 13,
-                      position: 'absolute',
-                      marginLeft: wp(7),
-                      marginTop: hp(6.5),
-                      borderColor: '#6B7280',
-                    },
-                  ]}
-                />
-                {!myAddress && (
+                  <View style={styles.horixontalLine} />
                   <View
-                    style={{
-                      backgroundColor: 'white',
-                      width: wp(100),
-                      height: hp(40),
-                      position: 'absolute',
-                      marginTop: hp(60),
-                      borderRadius: 20,
-                      overflow: 'hidden',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <LocationNotFound width={80} height={100} />
+                    style={[
+                      styles.verticalLine,
+                      {
+                        zIndex: 13,
+                        position: 'absolute',
+                        marginLeft: wp(7),
+                        marginTop: hp(6.5),
+                        borderColor: '#6B7280',
+                      },
+                    ]}
+                  />
+                  {!myAddress && (
                     <View
                       style={{
-                        width: wp(80),
-                        marginBottom: hp(10),
+                        backgroundColor: 'white',
+                        width: wp(100),
+                        height: hp(40),
+                        position: 'absolute',
+                        marginTop: hp(60),
+                        borderRadius: 20,
+                        overflow: 'hidden',
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}>
-                      <Text
-                        style={{
-                          fontFamily: 'Roboto Mono',
-                          fontWeight: '500',
-                          fontSize: wp(3.6),
-                        }}>
-                        Currently unavailable in your area. Stay tuned for
-                      </Text>
+                      <LocationNotFound width={80} height={100} />
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          fontSize: wp(3.6),                     
+                          width: wp(80),
+                          marginBottom: hp(10),
+                          justifyContent: 'center',
+                          alignItems: 'center',
                         }}>
                         <Text
                           style={{
                             fontFamily: 'Roboto Mono',
                             fontWeight: '500',
+                            fontSize: wp(3.6),
                           }}>
-                          updates on our expansion!
+                          Currently unavailable in your area. Stay tuned for
                         </Text>
-                        <Internet width={20} height={20} />
+                        <View
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            fontSize: wp(3.6),
+                          }}>
+                          <Text
+                            style={{
+                              fontFamily: 'Roboto Mono',
+                              fontWeight: '500',
+                            }}>
+                            updates on our expansion!
+                          </Text>
+                          <Internet width={20} height={20} />
+                        </View>
+                      </View>
+                    </View>
+                  )}
+
+                  <View
+                    style={[
+                      styles.inputView1,
+                      styles.destinationAddrView,
+                      { backgroundColor: 'transparent' },
+                    ]}>
+                    <View style={styles.destAddrInput}>
+                      <View style={[styles.iconsView, { left: wp(4) }]}>
+                        <DropIcon />
+                      </View>
+
+                      <AutocompleteInput
+                        key={'AutocompleteInput_2'}
+                        onBlur={handleBlur_2}
+                        onFocus={handleFocus_2}
+                        selection={selection_2}
+                        inputContainerStyle={styles.inputContainerStyle}
+                        placeholder="Enter your destination"
+                        style={[
+                          styles.autoCompleteStyles,
+                          {
+                            marginLeft: wp(4),
+                          },
+                        ]}
+                        data={destSearchResults ? destSearchResults : []}
+                        value={destAddress}
+                        onChangeText={text => {
+                          setIsProfileModal(false);
+                          setDestAddress(text);
+                          { text.length >= 4 ? setUber(true) : setUber(false) }
+                          destTextDebouncer(text);
+                        }}
+                        onSubmitEditing={() => { }}
+                      
+                        flatListProps={{
+                          keyExtractor: (_, idx: any) => idx,
+                          style: [
+                            styles.autoCompleteListStyles,
+                            {
+                              marginTop: hp(4),
+                              display: destAddress ? 'flex' : 'none',
+                            },
+                          ],
+                          renderItem: ({ item }: any) => (
+                            <TouchableOpacity
+                              style={{ flexDirection: 'row', alignItems: 'center' }}
+                              onPress={() => {
+                                setIsProfileModal(false);
+                                setDestAddress(item.description || item.placeAddress);
+                                handleSearch(item.description || item.placeAddress, false);
+                                setDestSearchResults([]);
+                                Keyboard.dismiss();
+                                setUber(false);
+                              }}
+                            >
+                              <View style={{ marginLeft: 10 }}>
+                                <DropIcon2 />
+                              </View>
+                              <View style={styles.autoCompleteText}>
+                                <Text style={styles.Title}>{item.placeName}</Text>
+                                <Text>{item.description || item.placeAddress}</Text>
+                              </View>
+                            </TouchableOpacity>
+                          ),
+                          keyboardShouldPersistTaps: 'always',
+                        }}
+                      />
+
+                      <View style={[styles.clearTextView, { right: wp(4) }]}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setIsProfileModal(false);
+                            setUber(false);
+                            setDestAddress('');
+                            setPath([]);
+                            setDistance({ text: '', value: '' });
+                            setDuration({ text: '', value: '' });
+                            setDestSearchResults([]);
+                            setDestLocation({ latitude: '', longitude: '' });
+                          }}>
+                          <Text style={styles.clearText}>X</Text>
+                        </TouchableOpacity>
                       </View>
                     </View>
                   </View>
-                )}
-
-                <View
-                  style={[
-                    styles.inputView1,
-                    styles.destinationAddrView,
-                    {backgroundColor: 'transparent'},
-                  ]}>
-                  <View style={styles.destAddrInput}>
-                    <View style={[styles.iconsView, {left: wp(4)}]}>
-                      <DropIcon />
-                    </View>
-
-                    <AutocompleteInput
-                      key={'AutocompleteInput_2'}
-                      onBlur={handleBlur_2}
-                      onFocus={handleFocus_2}
-                      selection={selection_2}
-                      inputContainerStyle={styles.inputContainerStyle}
-                      placeholder="Enter your destination"
-                      style={[
-                        styles.autoCompleteStyles,
-                        {
-                          marginLeft: wp(4),
-                        },
-                      ]}
-                      data={destSearchResults ? destSearchResults : []}
-                      value={destAddress}
-                      onChangeText={text => {
-                        setIsProfileModal(false);
-                        setDestAddress(text);
-                        {text.length >=4 ? setUber(true): setUber(false)}
-                        destTextDebouncer(text);
-                      }}
-                      onSubmitEditing={() => {}}
-                      flatListProps={{
-                        keyExtractor: (_, idx: any) => idx,
-                        style: [
-                          styles.autoCompleteListStyles,
-                          {
-                            marginTop: hp(4),
-                            display: destAddress ? 'flex' : 'none',
-                          },
-                        ],
-                        renderItem: ({item}: any) => (
-                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                          <View style={{ marginLeft: 10 }}>
-                              <DropIcon2 />
-                          </View>
-                          <Text
-                            onPress={() => {
-                              setIsProfileModal(false);
-                              setDestAddress(
-                                item.description || item?.placeAddress,
-                              );
-                              handleSearch(
-                                item.description || item?.placeAddress,
-                                false,
-                              );
-                              setDestSearchResults([]);
-                              Keyboard.dismiss();
-                              setUber(false)
-                            }}
-                            style={styles.autoCompleteText}>
-                           {item?.description || item?.placeAddress}
-                          </Text>
-                          </View>
-                        ),
-                        keyboardShouldPersistTaps: 'always',
-                      }}
-                    />
-
-                    <View style={[styles.clearTextView, {right: wp(4)}]}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setIsProfileModal(false);
-                          setUber(false);
-                          setDestAddress('');
-                          setPath([]);
-                          setDistance({text: '', value: ''});
-                          setDuration({text: '', value: ''});
-                          setDestSearchResults([]);
-                          setDestLocation({latitude: '', longitude: ''});
-                        }}>
-                        <Text style={styles.clearText}>X</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
                 </View>
-              </View>
 
-              {_isNumber(mylocation.latitude) && (
-                <View
-                  style={[styles.parentMapViewStyles, {position: 'relative'}]}>
-                  <MapView
-                    ref={mapRef}
-                    // onPress={() => {setShowMarker(true)}}
-                    onLongPress={() => {setShowMarker(false)}}
-                    // loadingEnabled={true}
-                    showsUserLocation={loading ? false : true}
-                    onMapReady={() => {
-                      Keyboard.dismiss();
-                    }}
-                 
+                {_isNumber(mylocation.latitude) && (
+                  <View
+                    style={[styles.parentMapViewStyles, { position: 'relative' }]}>
+                    <MapView
+                      ref={mapRef}
+                      // onPress={() => {setShowMarker(true)}}
+                      onLongPress={() => { setShowMarker(false) }}
+                      // loadingEnabled={true}
+                      showsUserLocation={loading ? false : true}
+                      onMapReady={() => {
+                        Keyboard.dismiss();
+                      }}
 
-                    style={styles.mapStyles}
-                    region={{
-                      latitude: mylocation.latitude,
-                      longitude: mylocation.longitude,
-                      latitudeDelta: 0.0122,
-                      longitudeDelta: 0.0121,
-                    }}
-                    //   onRegionChange={(region) => {
-                    //     // No need to update mylocation here, just update the marker's coordinate
-                    //     setMyLocation(region);
-                    // }}
-                    // onTouchEndCapture={()=>{
-                    //   console.log("jjjr")
-                    // }}
-                    // onRegionChange={handleRegionChange}
 
-                    onRegionChangeComplete={(region)=>{
-                      if(dragMap === true){
-                      setMyLocation((prevLocation:any) => {
-                        const distance = calculateDistance(
-                          prevLocation.latitude,
-                          prevLocation.longitude,
-                          region.latitude,
-                          region.longitude
-                        );
-                        if (distance >= 100) {
-                          return region; // Update the location if it differs by 100 meters
-                        } else {
-                          return prevLocation; // Keep the previous location unchanged
+                      style={styles.mapStyles}
+                      region={{
+                        latitude: mylocation.latitude,
+                        longitude: mylocation.longitude,
+                        latitudeDelta: 0.0122,
+                        longitudeDelta: 0.0121,
+                      }}
+
+                      onRegionChangeComplete={(region) => {
+                        if (dragMap === true) {
+                          setMyLocation((prevLocation: any) => {
+                            const distance = calculateDistance(
+                              prevLocation.latitude,
+                              prevLocation.longitude,
+                              region.latitude,
+                              region.longitude
+                            );
+                            if (distance >= 100) {
+                              return region; // Update the location if it differs by 100 meters
+                            } else {
+                              return prevLocation; // Keep the previous location unchanged
+                            }
+                          });
                         }
-                      });
-                    }
-                    }}
+                      }}
 
-                  
-                    // onRegionChangeComplete={region => {
-                     
-                    //   console.log("clg")
-                    //   // Update marker coordinates based on the center of the map region
-                    //   setMyLocation({
-                    //     latitude: region.latitude,
-                    //     longitude: region.longitude,
-                    //   });
-                    // }}
-                    
-                    initialRegion={{
-                      latitude: mylocation.latitude,
-                      longitude: mylocation.longitude,
-                      latitudeDelta: 0.0122,
-                      longitudeDelta: 0.0121,
-                    }}>
+                      initialRegion={{
+                        latitude: mylocation.latitude,
+                        longitude: mylocation.longitude,
+                        latitudeDelta: 0.0122,
+                        longitudeDelta: 0.0121,
+                      }}>
                       {showMarker && (<Marker
-                      identifier="pickup"
-                      draggable={false}
-                      // pinColor="blue"
-                      coordinate={{
-                        // latitude: mylocation.latitude,
-                        // longitude: mylocation.longitude,
-                        // latitudeDelta: 0.0622,
-                        // longitudeDelta: 0.0121,
+                        identifier="pickup"
+                        draggable={false}
+                        // pinColor="blue"
+                        coordinate={{
+                          // latitude: mylocation.latitude,
+                          // longitude: mylocation.longitude,
+                          // latitudeDelta: 0.0622,
+                          // longitudeDelta: 0.0121,
 
-                        latitude: path[0]?.latitude
-                          ? path[0]?.latitude
-                          : mylocation.latitude,
-                        longitude: path[0]?.longitude
-                          ? path[0].longitude
-                          : mylocation.longitude,
-                      }}
-                      onDragEnd={e => {
-                        console.log('first', e.nativeEvent);
-                        
-                        // setMyLocation(e.nativeEvent.coordinate);n
-                        // setMarkerDragging(false);
-                        // getAddress(e.nativeEvent.coordinate)
-                      }}
-                      image={require('../components/common/location.png')}>
-                      {path.length > 0 && <PickupMarker />}
-                    </Marker>)}
-                    {/* <Circle
+                          latitude: path[0]?.latitude
+                            ? path[0]?.latitude
+                            : mylocation.latitude,
+                          longitude: path[0]?.longitude
+                            ? path[0].longitude
+                            : mylocation.longitude,
+                        }}
+                        onDragEnd={e => {
+                          console.log('first', e.nativeEvent);
+
+                          // setMyLocation(e.nativeEvent.coordinate);n
+                          // setMarkerDragging(false);
+                          // getAddress(e.nativeEvent.coordinate)
+                        }}
+                        image={require('../components/common/location.png')}>
+                        {path.length > 0 && <PickupMarker />}
+                      </Marker>)}
+                      {/* <Circle
                       center={mylocation}
                       radius={50}
                       strokeWidth={1}
@@ -1604,77 +1586,77 @@ const MapScreen = (props: any) => {
                       }}
                     /> */}
 
-                    {_isNumber(destLocation.latitude) && destAddress && (
-                      <>
-                        <Marker
-                          identifier="destination"
-                          coordinate={{
-                            // latitude: destLocation.latitude,
-                            // longitude: destLocation.longitude,
-                            latitude: path[-1]?.latitude
-                              ? path[-1]?.latitude
-                              : destLocation.latitude,
-                            longitude: path[-1]?.latitude
-                              ? path[-1]?.latitude
-                              : destLocation.longitude,
-                            latitudeDelta: 0.0622,
-                            longitudeDelta: 0.0121,
-                          }}
-                          // pinColor="black"
-                        >
-                          <DropMarker />
-                        </Marker>
-
-                        {path.length > 0 && (
-                          <Polyline
-                            coordinates={path}
-                            strokeColor={themeColor}
-                            strokeWidth={4}
-                          />
-                        )}
-                      </>
-                    )}
-
-                    {nearbyDrivers.length > 0 &&
-                      nearbyDrivers.map((driver: any, idx: any) => {
-                        return (
+                      {_isNumber(destLocation.latitude) && destAddress && (
+                        <>
                           <Marker
-                            key={`driver_${idx + 1}`}
-                            identifier={`driver_${idx + 1}`}
-                            // identifier='driver'
-                            coordinate={driver}
-                            pinColor="yellow">
-                            <Car />
+                            identifier="destination"
+                            coordinate={{
+                              // latitude: destLocation.latitude,
+                              // longitude: destLocation.longitude,
+                              latitude: path[-1]?.latitude
+                                ? path[-1]?.latitude
+                                : destLocation.latitude,
+                              longitude: path[-1]?.latitude
+                                ? path[-1]?.latitude
+                                : destLocation.longitude,
+                              latitudeDelta: 0.0622,
+                              longitudeDelta: 0.0121,
+                            }}
+                          // pinColor="black"
+                          >
+                            <DropMarker />
                           </Marker>
-                        );
-                      })}
-                  </MapView>
-                  <Image style={styles.centeredIcon} resizeMode='contain' source={require('../components/common/location.png')}/>
-                </View>
-              )}
 
-              {done && myAddress && destAddress && path.length > 0 && (
-                <View style={styles.doneCardView}>
-                  <Text style={styles.rideInfoText}>
-                    Distance: {distance.text} and approx. duration:{' '}
-                    {duration.text}{' '}
-                  </Text>
+                          {path.length > 0 && (
+                            <Polyline
+                              coordinates={path}
+                              strokeColor={themeColor}
+                              strokeWidth={4}
+                            />
+                          )}
+                        </>
+                      )}
 
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleFare();
-                    }}
-                    style={[styles.bookButtonView]}>
-                    <Text
-                      style={[styles.buttonText, {fontWeight: '800', flex: 1}]}>
-                      Book Now
+                      {nearbyDrivers.length > 0 &&
+                        nearbyDrivers.map((driver: any, idx: any) => {
+                          return (
+                            <Marker
+                              key={`driver_${idx + 1}`}
+                              identifier={`driver_${idx + 1}`}
+                              // identifier='driver'
+                              coordinate={driver}
+                              pinColor="yellow">
+                              <Car />
+                            </Marker>
+                          );
+                        })}
+                    </MapView>
+                    <Image style={styles.centeredIcon} resizeMode='contain' source={require('../components/common/location.png')} />
+                  </View>
+                )}
+
+                {done && myAddress && destAddress && path.length > 0 && (
+                  <View style={styles.doneCardView}>
+                    <Text style={styles.rideInfoText}>
+                      Distance: {distance.text} and approx. duration:{' '}
+                      {duration.text}{' '}
                     </Text>
-                    <View style={{alignSelf: 'center'}}>
-                      <ArrowRight />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        handleFare();
+                      }}
+                      style={[styles.bookButtonView]}>
+                      <Text
+                        style={[styles.buttonText, { fontWeight: '800', flex: 1 }]}>
+                        Book Now
+                      </Text>
+                      <View style={{ alignSelf: 'center' }}>
+                        <ArrowRight />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </>
           )}
@@ -1695,8 +1677,8 @@ const MapScreen = (props: any) => {
               distanceText={distance.text}
               setCustomSpinner={setCustomSpinner}
               setLoading={setLoading}
-              // emptyStates={emptyStates}
-              // setNearbyDrivers={setNearbyDrivers}
+            // emptyStates={emptyStates}
+            // setNearbyDrivers={setNearbyDrivers}
             />
           )}
 
@@ -1758,7 +1740,7 @@ const MapScreen = (props: any) => {
                             borderRadius: 10,
                             elevation: 2, // for Android shadow
                             shadowColor: '#000',
-                            shadowOffset: {width: 0, height: 2},
+                            shadowOffset: { width: 0, height: 2 },
                             shadowOpacity: 0.2,
                             shadowRadius: 2,
                             alignItems: 'center',
@@ -1861,7 +1843,7 @@ const MapScreen = (props: any) => {
                         <View
                           style={[
                             styles.inputView1,
-                            {backgroundColor: 'transparent', width: wp(80)},
+                            { backgroundColor: 'transparent', width: wp(80) },
                           ]}>
                           <View
                             style={[
@@ -1901,8 +1883,8 @@ const MapScreen = (props: any) => {
                             latitudeDelta: 0.0122,
                             longitudeDelta: 0.0121,
                           }}
-                            // mapPadding={{top: 550, right: 50, left: 50, bottom: 0}}
-                          >
+                        // mapPadding={{top: 550, right: 50, left: 50, bottom: 0}}
+                        >
                           {_isNumber(rideDetails.pickUpLocation[0]) &&
                             !isRideStarted && (
                               <Marker
@@ -1960,64 +1942,64 @@ const MapScreen = (props: any) => {
 
                       {(rideDetails?.status == 'pending-payment' ||
                         rideDetails?.status == 'payment-failed') && (
-                        <View style={styles.paymentCard}>
-                          <Text
-                            style={[
-                              styles.paymentText,
-                              {
-                                fontSize: wp(6),
-                              },
-                            ]}>
-                            {rideDetails.paymentMode}
-                          </Text>
-
-                          <Text style={styles.subPaymentText}>
-                            Please make your payment
-                          </Text>
-
-                          <View style={styles.amountView}>
-                            <Text style={styles.ruppeeSymbol}>
-                              {/* {'\u20B9'} */}₹
+                          <View style={styles.paymentCard}>
+                            <Text
+                              style={[
+                                styles.paymentText,
+                                {
+                                  fontSize: wp(6),
+                                },
+                              ]}>
+                              {rideDetails.paymentMode}
                             </Text>
-                            <Text style={styles.amountText}>{fare}</Text>
-                          </View>
 
-                          <TouchableOpacity
-                            disabled={loading}
-                            onPress={() =>
-                              rideDetails.paymentMode == 'Online'
-                                ? handlePayOnline()
-                                : handlePayCash()
-                            }
-                            style={styles.paymentButton}>
-                            {loading && (
-                              <ActivityIndicator size="small" color="#fff" />
-                            )}
-                            <Text style={styles.buttonText}>
-                              {rideDetails.paymentMode == 'Online'
-                                ? 'Pay Now'
-                                : 'Done'}
+                            <Text style={styles.subPaymentText}>
+                              Please make your payment
                             </Text>
-                          </TouchableOpacity>
 
-                          <TouchableOpacity
-                            onPress={handleChangePaymentMode}
-                            style={styles.commonDiplayStyles}>
-                            <Text style={styles.changePayText}>
-                              Change payment mode to{' '}
-                              <Text
-                                style={{
-                                  color: themeColor,
-                                  fontWeight: '600',
-                                }}>
-                                {rideDetails.paymentMode == 'Cash'
-                                  ? 'Online'
-                                  : 'Cash'}
+                            <View style={styles.amountView}>
+                              <Text style={styles.ruppeeSymbol}>
+                                {/* {'\u20B9'} */}₹
                               </Text>
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
+                              <Text style={styles.amountText}>{fare}</Text>
+                            </View>
+
+                            <TouchableOpacity
+                              disabled={loading}
+                              onPress={() =>
+                                rideDetails.paymentMode == 'Online'
+                                  ? handlePayOnline()
+                                  : handlePayCash()
+                              }
+                              style={styles.paymentButton}>
+                              {loading && (
+                                <ActivityIndicator size="small" color="#fff" />
+                              )}
+                              <Text style={styles.buttonText}>
+                                {rideDetails.paymentMode == 'Online'
+                                  ? 'Pay Now'
+                                  : 'Done'}
+                              </Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                              onPress={handleChangePaymentMode}
+                              style={styles.commonDiplayStyles}>
+                              <Text style={styles.changePayText}>
+                                Change payment mode to{' '}
+                                <Text
+                                  style={{
+                                    color: themeColor,
+                                    fontWeight: '600',
+                                  }}>
+                                  {rideDetails.paymentMode == 'Cash'
+                                    ? 'Online'
+                                    : 'Cash'}
+                                </Text>
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        )}
 
                       {/* {paymentCompleted && (
                         <View
@@ -2089,7 +2071,7 @@ const MapScreen = (props: any) => {
                               <View>
                                 <DefaultProfile />
                               </View>
-                              <View style={{marginLeft: wp(2)}}>
+                              <View style={{ marginLeft: wp(2) }}>
                                 {/* <Text style={styles.heading}>
                                     OTP: {rideDetails.otp}
                                   </Text> */}
@@ -2098,24 +2080,24 @@ const MapScreen = (props: any) => {
                                   {driverDetails.lastName}
                                 </Text>
                                 <View style={styles.carDetailView}>
-                                  <View style={{marginRight: hp(1)}}>
+                                  <View style={{ marginRight: hp(1) }}>
                                     <SmallCarIcon />
                                   </View>
                                   <Text
                                     style={[
                                       styles.text,
-                                      {fontSize: hp(1.8), width: wp(40)},
+                                      { fontSize: hp(1.8), width: wp(40) },
                                     ]}>
                                     {' '}
                                     Car : {driverDetails.vehicleName}
                                   </Text>
                                 </View>
                                 <View style={styles.ratingsView}>
-                                  <View style={{marginRight: hp(1)}}>
+                                  <View style={{ marginRight: hp(1) }}>
                                     <RatingStarIcon />
                                   </View>
                                   <Text
-                                    style={[styles.text, {fontSize: hp(1.8)}]}>
+                                    style={[styles.text, { fontSize: hp(1.8) }]}>
                                     4.9 ( 490 reviews)
                                   </Text>
                                 </View>
@@ -2149,7 +2131,7 @@ const MapScreen = (props: any) => {
                               },
                             ]}>
                             <View>
-                              <Text style={{fontSize: hp(2), color: '#000000'}}>
+                              <Text style={{ fontSize: hp(2), color: '#000000' }}>
                                 Amount
                               </Text>
                               <Text
@@ -2178,15 +2160,15 @@ const MapScreen = (props: any) => {
                               rideDetails?.status == 'pending-arrival') ||
                               rideDetails?.status == 'pending-accept' ||
                               rideDetails?.status == 'pending-otp') && (
-                              // ! hide after ride started or after pickup
-                              <TouchableOpacity
-                                onPress={() => {
-                                  handleCancelRide();
-                                }}>
-                                <CancelIcon />
-                                {/* <Text style={styles.textButton}>Cancel</Text> */}
-                              </TouchableOpacity>
-                            )}
+                                // ! hide after ride started or after pickup
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    handleCancelRide();
+                                  }}>
+                                  <CancelIcon />
+                                  {/* <Text style={styles.textButton}>Cancel</Text> */}
+                                </TouchableOpacity>
+                              )}
 
                             <TouchableOpacity
                               onPress={() => {
@@ -2266,13 +2248,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 10,
-    borderColor:'#EB5757',
-    borderWidth:wp(0.2),
+    borderColor: '#EB5757',
+    borderWidth: wp(0.2),
     width: wp(80),
     alignItems: 'center',
-    alignSelf:'center',
-    justifyContent:'center',
-    marginTop:hp(18)
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: hp(18)
   },
 
   buttonText: {
@@ -2410,7 +2392,7 @@ const styles = StyleSheet.create({
     bottom: hp(28),
     justifyContent: 'center',
   },
-  text: {fontFamily: 'Roboto Mono', color: 'grey', fontSize: hp(2)},
+  text: { fontFamily: 'Roboto Mono', color: 'grey', fontSize: hp(2) },
   heading: {
     fontFamily: 'Roboto Mono',
     fontWeight: '800',
@@ -2473,14 +2455,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     borderColor: 'black',
-    borderWidth:2,
+    borderWidth: 2,
     display: 'flex',
     alignItems: 'center',
     // marginTop: hp(1),
     top: hp(2),
     borderRadius: wp(3),
   },
-  profileText: {fontFamily: 'Roboto Mono', color: '#ffffff', fontSize: wp(5)},
+  profileText: { fontFamily: 'Roboto Mono', color: '#ffffff', fontSize: wp(5) },
   horixontalLine: {
     backgroundColor: '#E5E7EB',
     height: 1,
@@ -2496,7 +2478,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 1,
     top: hp(0),
-    left:wp(5.7)
+    left: wp(5.7)
   },
   myAddressInput: {
     backgroundColor: 'transparent',
@@ -2535,11 +2517,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto Mono',
     color: '#000000',
     margin: wp(1),
-    marginLeft:wp(4),
-    width:wp(87),
+    marginLeft: wp(4),
+    width: wp(87),
+    marginTop: hp(1.5)
+  },
+  Title: {
+    fontSize: 16,
+    fontFamily: 'RobotoMono',
+    fontWeight: '700',
+    color: 'black'
   },
   DroplistIcon: {
-    marginTop:wp(0),
+    marginTop: wp(0),
   },
   clearTextView: {
     position: 'absolute',
@@ -2577,12 +2566,21 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-between',
     // width:wp(88),
   },
-  autoCompleteListStyles: {
+  autoCompleteListStyles1: {
     width: wp(100),
+    height: hp(100),
     alignSelf: 'center',
     // borderRadius: 20,
-    backgroundColor:'#fff5ee',
-    bottom:hp(2.2)
+    backgroundColor: '#fff5ee',
+    bottom: hp(0.2)
+  },
+  autoCompleteListStyles: {
+    width: wp(100),
+    height: hp(100),
+    alignSelf: 'center',
+    // borderRadius: 20,
+    backgroundColor: '#fff5ee',
+    bottom: hp(1)
   },
   doneCardView: {
     height: hp(17),
@@ -2718,13 +2716,13 @@ const styles = StyleSheet.create({
     marginTop: -5,
     fontSize: wp(3.9),
   },
-  arriveTimeText: {color: '#464E5F', fontWeight: '700'},
+  arriveTimeText: { color: '#464E5F', fontWeight: '700' },
   infoCardHeader: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  commonDiplayStyles: {display: 'flex', flexDirection: 'row'},
+  commonDiplayStyles: { display: 'flex', flexDirection: 'row' },
   carDetailView: {
     display: 'flex',
     flexDirection: 'row',
@@ -2770,7 +2768,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: wp(10),
   },
-  loader: {position: 'absolute', top: hp(50), left: wp(50)},
+  loader: { position: 'absolute', top: hp(50), left: wp(50) },
   parentMapViewStyles: {
     alignSelf: 'center',
     overflow: 'hidden',
@@ -2779,6 +2777,7 @@ const styles = StyleSheet.create({
     width: wp(100),
     height: hp(100),
     position: 'relative',
+    // top:hp(10)
   },
   centeredIcon: {
     width: wp(14),
