@@ -166,7 +166,7 @@ const MapScreen = (props: any) => {
   const [driverArrivalTime, setDriverArrivalTime] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState(false);
   const [showMarker, setShowMarker] = useState(false);
-  const [uber, setUber] = useState(false);
+  const [ridePlan, setRidePlan] = useState(false);
   const [dragMap, setDragMap] = useState<boolean>(true)
   // const [isScheduleRide, setIsScheduleRide] = useState<boolean>(false);
   // const [scheduledRideDetails, setScheduledRideDetails] = useState<any>([]);
@@ -1258,7 +1258,7 @@ const MapScreen = (props: any) => {
           {navigationStep == 0 && !deleteModal && (
 
             <>
-              {uber === true &&
+              {ridePlan === true &&
                 <View style={{ flex: 1, backgroundColor: '#fff5ee', zIndex: 1, position: 'absolute', height: hp(100), width: wp(100), top: hp(0) }}>
                   <Text style={{ color: 'black', fontSize: 22, fontFamily: 'Roboto Mono', fontWeight: 600, alignSelf: 'center', marginTop: hp(2) }}>Plan your ride</Text>
                 </View>
@@ -1290,6 +1290,7 @@ const MapScreen = (props: any) => {
                         data={pickUpSearchResults ? pickUpSearchResults : []}
                         value={myAddress}
                         onChangeText={text => {
+                          { text.length >= 1 ? setRidePlan(true) : setRidePlan(false) }
                           setIsProfileModal(false);
                           setMyAddress(text);
                           pickupTextDebouncer(text);
@@ -1440,7 +1441,7 @@ const MapScreen = (props: any) => {
                         onChangeText={text => {
                           setIsProfileModal(false);
                           setDestAddress(text);
-                          { text.length >= 4 ? setUber(true) : setUber(false) }
+                          { text.length >= 1 ? setRidePlan(true) : setRidePlan(false) }
                           destTextDebouncer(text);
                         }}
                         onSubmitEditing={() => { }}
@@ -1463,7 +1464,7 @@ const MapScreen = (props: any) => {
                                 handleSearch(item.description || item.placeAddress, false);
                                 setDestSearchResults([]);
                                 Keyboard.dismiss();
-                                setUber(false);
+                                setRidePlan(false);
                               }}
                             >
                               <View style={{ marginLeft: 10 }}>
@@ -1483,7 +1484,7 @@ const MapScreen = (props: any) => {
                         <TouchableOpacity
                           onPress={() => {
                             setIsProfileModal(false);
-                            setUber(false);
+                            setRidePlan(false);
                             setDestAddress('');
                             setPath([]);
                             setDistance({ text: '', value: '' });
@@ -2580,7 +2581,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // borderRadius: 20,
     backgroundColor: '#fff5ee',
-    bottom: hp(1)
+    bottom: hp(2.3)
   },
   doneCardView: {
     height: hp(17),
