@@ -1,13 +1,7 @@
 import customAxios from "./appservices";
 
-export const suggestedPickUpPlaces = (text: string) => {
-    return customAxios.post(
-        `/get-address-from-autocomplete`,
-        {text}
-      );
-}
 
-export const suggestedDestPlaces = (text: string, location:any) => {
+export const suggestedPlaces = (text: string, location:any) => {
     return customAxios.post(
         `/get-address-from-autocomplete`,
         {text, location}

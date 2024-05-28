@@ -80,8 +80,7 @@ import {
   DirectionsApi,
   getAddressFromCoords,
   getCoordsFromAddress,
-  suggestedPickUpPlaces,
-  suggestedDestPlaces,
+  suggestedPlaces,
 } from '../services/mapservices';
 import { getUtils } from '../services/userservices';
 import customAxios from '../services/appservices';
@@ -469,26 +468,12 @@ const MapScreen = (props: any) => {
     }
   };
 
-  const getPickUpAddressFromAutoComplete = async (text: string) => {
-    try {
-      if (text?.length >= 4) {
-        setLoading(true)
-        const response: any = await suggestedPickUpPlaces(text);
-        setLoading(false)
-        return response?.data?.predictions || [];
-        // return dummy_destAutoComplete;
-      }
-      return [];
-    } catch (error: any) {
-      console.log('error in getAddressFromAutoComplete 1', error);
-    }
-  };
 
-  const getDestAddressFromAutoComplete = async (text: string, mylocation: any) => {
+  const getAddressFromAutoComplete = async (text: string, mylocation: any) => {
     try {
       if (text?.length >= 4) {
         setLoading(true)
-        const response: any = await suggestedDestPlaces(text, mylocation);
+        const response: any = await suggestedPlaces(text, mylocation);
         setLoading(false)
         console.log("response from OlaMaps API >>>>", JSON.stringify(response?.data?.predictions,null,2))
         return response?.data?.predictions || [];
@@ -505,8 +490,8 @@ const MapScreen = (props: any) => {
     [],
   );
 
-  async function pickupChangeTextDebounced(text: string) {
-    const results: any = await getPickUpAddressFromAutoComplete(text);
+  async function pickupChangeTextDebounced(text: string,mylocation:any) {
+    const results: any = await getAddressFromAutoComplete(text,mylocation);
     setpickUpSearchResults(results.slice(0, 7));
   }
 
@@ -516,7 +501,7 @@ const MapScreen = (props: any) => {
   );
 
   async function destChangeTextDebounced(text: string, mylocation: any) {
-    const results: any = await getDestAddressFromAutoComplete(text, mylocation);
+    const results: any = await getAddressFromAutoComplete(text, mylocation);
     setDestSearchResults(results);
   }
 
@@ -1312,7 +1297,7 @@ const MapScreen = (props: any) => {
                           { text.length >= 1 ? setRidePlan(true) : setRidePlan(false) }
                           setIsProfileModal(false);
                           setMyAddress(text);
-                          pickupTextDebouncer(text);
+                          pickupTextDebouncer(text,mylocation);
                         }}
                         onSubmitEditing={() => { }}
                         flatListProps={{
@@ -1488,8 +1473,8 @@ const MapScreen = (props: any) => {
                             >
                               <View style={{ marginLeft:1 }}>
                                 <DropIcon2 />
+                                <Text style={styles.distanceText}>{(item.distance_meters / 1000).toFixed(1)} km</Text>
                               </View>
-                              <Text style={styles.distanceText}>{(item.distance_meters / 1000).toFixed(1)} km</Text>
                               <View style={styles.autoCompleteText}>
                                 <Text style={styles.Title}>{item.structured_formatting.main_text}</Text>
                                 <Text>{item.description || item.placeAddress} </Text>
