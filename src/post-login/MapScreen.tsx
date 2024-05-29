@@ -66,6 +66,7 @@ import {
   debounce as _debounce,
   isNumber as _isNumber,
   isNull as _isNull,
+  set,
 } from 'lodash';
 import { styles as ExternalStyles, themeColor } from '../styles/styles';
 import SidebarIcon from '../components/svg/SidebarIcon';
@@ -77,9 +78,9 @@ import {
 import { DriverInfo, getRideFare } from '../services/rideservices';
 import {
   DirectionsApi,
-  suggestedPlaces,
   getAddressFromCoords,
   getCoordsFromAddress,
+  suggestedPlaces,
 } from '../services/mapservices';
 import { getUtils } from '../services/userservices';
 import customAxios from '../services/appservices';
@@ -467,12 +468,14 @@ const MapScreen = (props: any) => {
     }
   };
 
-  const getAddressFromAutoComplete = async (text: string) => {
+
+  const getAddressFromAutoComplete = async (text: string, mylocation: any) => {
     try {
       if (text?.length >= 4) {
         setLoading(true)
-        const response: any = await suggestedPlaces(text);
+        const response: any = await suggestedPlaces(text, mylocation);
         setLoading(false)
+        console.log("response from OlaMaps API >>>>", JSON.stringify(response?.data?.predictions,null,2))
         return response?.data?.predictions || [];
         // return dummy_destAutoComplete;
       }
@@ -481,25 +484,25 @@ const MapScreen = (props: any) => {
       console.log('error in getAddressFromAutoComplete 1', error);
     }
   };
-  ''
+
   const pickupTextDebouncer = useCallback(
     _debounce(pickupChangeTextDebounced, debounceTime || 0),
     [],
   );
 
-  async function pickupChangeTextDebounced(text: string) {
-    const results: any = await getAddressFromAutoComplete(text);
-    setpickUpSearchResults(results.slice(0,7));
+  async function pickupChangeTextDebounced(text: string,mylocation:any) {
+    const results: any = await getAddressFromAutoComplete(text,mylocation);
+    setpickUpSearchResults(results.slice(0, 7));
   }
 
   const destTextDebouncer = useCallback(
-    _debounce(destChangeTextDebounced, debounceTime || 0),
+    _debounce(destChangeTextDebounced, mylocation, debounceTime || 0),
     [],
   );
 
-  async function destChangeTextDebounced(text: string) {
-    const results: any = await getAddressFromAutoComplete(text);
-    setDestSearchResults(results.slice(0, 7));
+  async function destChangeTextDebounced(text: string, mylocation: any) {
+    const results: any = await getAddressFromAutoComplete(text, mylocation);
+    setDestSearchResults(results);
   }
 
   const getAddress = async (location: { latitude: any; longitude: any }) => {
@@ -589,6 +592,7 @@ const MapScreen = (props: any) => {
         latitude: response?.data?.latlong?.[1],
         longitude: response?.data?.latlong?.[0],
       };
+      console.log(">>>>>>>>>>>>>>>>>>>>", coords)
       if (current) {
         setMyLocation(coords);
         if (_isNumber(destLocation.latitude)) {
@@ -1293,7 +1297,7 @@ const MapScreen = (props: any) => {
                           { text.length >= 1 ? setRidePlan(true) : setRidePlan(false) }
                           setIsProfileModal(false);
                           setMyAddress(text);
-                          pickupTextDebouncer(text);
+                          pickupTextDebouncer(text,mylocation);
                         }}
                         onSubmitEditing={() => { }}
                         flatListProps={{
@@ -1324,7 +1328,7 @@ const MapScreen = (props: any) => {
                                 <DropIcon2 />
                               </View>
                               <View style={styles.autoCompleteText}>
-                                <Text style={styles.Title}>{item.placeName}</Text>
+                              <Text style={styles.Title}>{item.structured_formatting.main_text}</Text>
                                 <Text>{item?.description || item?.placeAddress}</Text>
                               </View>
                             </TouchableOpacity>
@@ -1442,10 +1446,10 @@ const MapScreen = (props: any) => {
                           setIsProfileModal(false);
                           setDestAddress(text);
                           { text.length >= 1 ? setRidePlan(true) : setRidePlan(false) }
-                          destTextDebouncer(text);
+                          destTextDebouncer(text, mylocation);
                         }}
                         onSubmitEditing={() => { }}
-                      
+
                         flatListProps={{
                           keyExtractor: (_, idx: any) => idx,
                           style: [
@@ -1467,12 +1471,13 @@ const MapScreen = (props: any) => {
                                 setRidePlan(false);
                               }}
                             >
-                              <View style={{ marginLeft: 10 }}>
+                              <View style={{ marginLeft:1 }}>
                                 <DropIcon2 />
+                                <Text style={styles.distanceText}>{(item.distance_meters / 1000).toFixed(1)} km</Text>
                               </View>
                               <View style={styles.autoCompleteText}>
-                                <Text style={styles.Title}>{item.placeName}</Text>
-                                <Text>{item.description || item.placeAddress}</Text>
+                                <Text style={styles.Title}>{item.structured_formatting.main_text}</Text>
+                                <Text>{item.description || item.placeAddress} </Text>
                               </View>
                             </TouchableOpacity>
                           ),
@@ -2518,15 +2523,27 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto Mono',
     color: '#000000',
     margin: wp(1),
-    marginLeft: wp(4),
+    marginLeft: wp(1.5),
     width: wp(87),
     marginTop: hp(1.5)
+  },
+  TitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   Title: {
     fontSize: 16,
     fontFamily: 'RobotoMono',
     fontWeight: '700',
-    color: 'black'
+    color: 'black',
+    flexShrink: 1,
+  },
+  distanceText: {
+    fontSize: 14, // slightly smaller than the main text if needed
+    color: 'blue', // a lighter shade for the distance
+    alignItems: 'flex-end',
+    // marginRight:wp(1)
   },
   DroplistIcon: {
     marginTop: wp(0),
