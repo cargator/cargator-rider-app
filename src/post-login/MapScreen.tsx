@@ -1328,7 +1328,7 @@ const MapScreen = (props: any) => {
                                 <DropIcon2 />
                               </View>
                               <View style={styles.autoCompleteText}>
-                                <Text style={styles.Title}>{item.placeName}</Text>
+                              <Text style={styles.Title}>{item.structured_formatting.main_text}</Text>
                                 <Text>{item?.description || item?.placeAddress}</Text>
                               </View>
                             </TouchableOpacity>
