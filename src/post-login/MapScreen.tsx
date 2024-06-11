@@ -475,7 +475,7 @@ const MapScreen = (props: any) => {
         setLoading(true)
         const response: any = await suggestedPlaces(text, mylocation);
         setLoading(false)
-        console.log("response from OlaMaps API >>>>", JSON.stringify(response?.data?.predictions,null,2))
+        // console.log("response from OlaMaps API >>>>", JSON.stringify(response?.data?.predictions,null,2))
         return response?.data?.predictions || [];
         // return dummy_destAutoComplete;
       }
@@ -486,7 +486,7 @@ const MapScreen = (props: any) => {
   };
 
   const pickupTextDebouncer = useCallback(
-    _debounce(pickupChangeTextDebounced, debounceTime || 0),
+    _debounce(pickupChangeTextDebounced, debounceTime || 0, mylocation),
     [],
   );
 
@@ -496,7 +496,7 @@ const MapScreen = (props: any) => {
   }
 
   const destTextDebouncer = useCallback(
-    _debounce(destChangeTextDebounced, mylocation, debounceTime || 0),
+    _debounce(destChangeTextDebounced, debounceTime || 0, mylocation),
     [],
   );
 
